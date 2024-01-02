@@ -64,8 +64,6 @@ local function Add_Surround()
   feedkeys('<ESC>', 'n')
 end
 
-vim.keymap.set('v', 'S', Add_Surround, {})
-
 local function Change_Surround()
   local Char = getchar()
   if not Char[1] then
@@ -82,4 +80,9 @@ local function Change_Surround()
   vim.api.nvim_buf_set_text(0, pos[3] - 1, pos[4] - 1, pos[3] - 1, pos[4], { char_new[2] })
 end
 
-vim.keymap.set('n', 'cs', Change_Surround, {})
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  callback = function()
+    vim.keymap.set('v', 'S', Add_Surround, {})
+    vim.keymap.set('n', 'cs', Change_Surround, {})
+  end
+})

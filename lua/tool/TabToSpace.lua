@@ -19,4 +19,8 @@ local function TabToSpace()
   end)
 end
 
-vim.keymap.set('n', '<leader>ts', TabToSpace, {})
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  callback = function()
+    vim.keymap.set('n', '<leader>ts', TabToSpace, {})
+  end
+})

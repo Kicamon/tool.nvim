@@ -50,7 +50,14 @@ local function Run()
     vim.cmd("term live-server --browser=" .. vim.g.browser)
     vim.cmd("tabclose")
     feedkeys('<ESC>', 'n')
+  elseif (vim.bo.filetype == 'text') then
+    vim.notify('ttttt')
   end
 end
 
-vim.keymap.set('n', '<F5>', Run, {})
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  pattern = vim.g.fts,
+  callback = function()
+    vim.keymap.set('n', '<F5>', Run, {})
+  end
+})
