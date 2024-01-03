@@ -2,26 +2,17 @@ local prev_win = -1
 local winnr = -1
 local bufnr = -1
 local tempname = ''
-local TL = require('tool.util.TabList')
 local workpath = ''
 
 local function OpenFile(open)
-  local tab_opend = {}
   if open == 'vsplit' then
     vim.cmd('set splitright')
-  else
-    tab_opend = TL:TabList()
   end
 
   if vim.fn.filereadable(vim.fn.expand(tempname)) == 1 then
     local filenames = vim.fn.readfile(tempname)
     for _, filename in ipairs(filenames) do
-      local index = TL:TabOpend(filename, tab_opend)
-      if index ~= 0 then
-        vim.cmd(index .. 'tabnext')
-      else
-        vim.cmd(open .. ' ' .. filename)
-      end
+      vim.cmd(open .. ' ' .. filename)
     end
   end
 end
