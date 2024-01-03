@@ -39,8 +39,7 @@ local function OpenWiki()
     vim.cmd("silent !mkdir -p " .. path)
     vim.cmd("silent !touch " .. path .. "index.md")
   end
-  local open = vim.api.nvim_buf_get_name(0) == '' and 'e ' or 'tabe '
-  vim.cmd(open .. path .. "index.md")
+  vim.cmd('e ' .. path .. "index.md")
 end
 
 vim.keymap.set('n', '<leader>ww', OpenWiki, {})
