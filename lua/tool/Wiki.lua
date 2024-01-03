@@ -39,6 +39,7 @@ local function OpenWiki()
     vim.cmd("silent !mkdir -p " .. path)
     vim.cmd("silent !touch " .. path .. "index.md")
   end
+  vim.cmd('silent! lcd ' .. path)
   vim.cmd('e ' .. path .. "index.md")
 end
 
