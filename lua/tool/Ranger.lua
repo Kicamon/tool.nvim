@@ -12,6 +12,9 @@ local function OpenFile(open)
   else
     tab_opend = TL:TabList()
   end
+  if vim.api.nvim_buf_get_name(0) == '' then
+    open = 'edit'
+  end
 
   if vim.fn.filereadable(vim.fn.expand(tempname)) == 1 then
     local filenames = vim.fn.readfile(tempname)
