@@ -50,8 +50,6 @@ local function Run()
     vim.cmd("term live-server --browser=" .. vim.g.browser)
     vim.cmd("tabclose")
     feedkeys('<ESC>', 'n')
-  elseif (vim.bo.filetype == 'text') then
-    vim.notify('ttttt')
   end
 end
 
