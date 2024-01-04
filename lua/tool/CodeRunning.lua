@@ -54,7 +54,7 @@ local function Run()
 end
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = vim.g.fts,
+  pattern = { 'c', 'cpp', 'python', 'lua', 'markdown', 'sh', 'html' },
   callback = function()
     vim.keymap.set('n', '<F5>', Run, {})
   end
