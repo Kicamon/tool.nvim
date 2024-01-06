@@ -1,809 +1,810 @@
---move cursor with the middle of the keyboard
-local function map(from, to)
-  vim.keymap.set("n", from, to, { noremap = true, silent = true })
-end
+local Cursors = {
+  { "<leader>",     "1j" },
+  { "<leader>",     "2j" },
+  { "'d<leader>",   "3j" },
+  { "'f<leader>",   "4j" },
+  { "'g<leader>",   "5j" },
+  { "'h<leader>",   "6j" },
+  { "'j<leader>",   "7j" },
+  { "'k<leader>",   "8j" },
+  { "'l<leader>",   "9j" },
+  { "'a;<leader>",  "10j" },
+  { "'aa<leader>",  "11j" },
+  { "'as<leader>",  "12j" },
+  { "'ad<leader>",  "13j" },
+  { "'af<leader>",  "14j" },
+  { "'ag<leader>",  "15j" },
+  { "'ah<leader>",  "16j" },
+  { "'aj<leader>",  "17j" },
+  { "'ak<leader>",  "18j" },
+  { "'al<leader>",  "19j" },
+  { "'s;<leader>",  "20j" },
+  { "'sa<leader>",  "21j" },
+  { "'ss<leader>",  "22j" },
+  { "'sd<leader>",  "23j" },
+  { "'sf<leader>",  "24j" },
+  { "'sg<leader>",  "25j" },
+  { "'sh<leader>",  "26j" },
+  { "'sj<leader>",  "27j" },
+  { "'sk<leader>",  "28j" },
+  { "'sl<leader>",  "29j" },
+  { "'d;<leader>",  "30j" },
+  { "'da<leader>",  "31j" },
+  { "'ds<leader>",  "32j" },
+  { "'dd<leader>",  "33j" },
+  { "'df<leader>",  "34j" },
+  { "'dg<leader>",  "35j" },
+  { "'dh<leader>",  "36j" },
+  { "'dj<leader>",  "37j" },
+  { "'dk<leader>",  "38j" },
+  { "'dl<leader>",  "39j" },
+  { "'f;<leader>",  "40j" },
+  { "'fa<leader>",  "41j" },
+  { "'fs<leader>",  "42j" },
+  { "'fd<leader>",  "43j" },
+  { "'ff<leader>",  "44j" },
+  { "'fg<leader>",  "45j" },
+  { "'fh<leader>",  "46j" },
+  { "'fj<leader>",  "47j" },
+  { "'fk<leader>",  "48j" },
+  { "'fl<leader>",  "49j" },
+  { "'g;<leader>",  "50j" },
+  { "'ga<leader>",  "51j" },
+  { "'gs<leader>",  "52j" },
+  { "'gd<leader>",  "53j" },
+  { "'gf<leader>",  "54j" },
+  { "'gg<leader>",  "55j" },
+  { "'gh<leader>",  "56j" },
+  { "'gj<leader>",  "57j" },
+  { "'gk<leader>",  "58j" },
+  { "'gl<leader>",  "59j" },
+  { "'h;<leader>",  "60j" },
+  { "'ha<leader>",  "61j" },
+  { "'hs<leader>",  "62j" },
+  { "'hd<leader>",  "63j" },
+  { "'hf<leader>",  "64j" },
+  { "'hg<leader>",  "65j" },
+  { "'hh<leader>",  "66j" },
+  { "'hj<leader>",  "67j" },
+  { "'hk<leader>",  "68j" },
+  { "'hl<leader>",  "69j" },
+  { "'j;<leader>",  "70j" },
+  { "'ja<leader>",  "71j" },
+  { "'js<leader>",  "72j" },
+  { "'jd<leader>",  "73j" },
+  { "'jf<leader>",  "74j" },
+  { "'jg<leader>",  "75j" },
+  { "'jh<leader>",  "76j" },
+  { "'jj<leader>",  "77j" },
+  { "'jk<leader>",  "78j" },
+  { "'jl<leader>",  "79j" },
+  { "'k;<leader>",  "80j" },
+  { "'ka<leader>",  "81j" },
+  { "'ks<leader>",  "82j" },
+  { "'kd<leader>",  "83j" },
+  { "'kf<leader>",  "84j" },
+  { "'kg<leader>",  "85j" },
+  { "'kh<leader>",  "86j" },
+  { "'kj<leader>",  "87j" },
+  { "'kk<leader>",  "88j" },
+  { "'kl<leader>",  "89j" },
+  { "'l;<leader>",  "90j" },
+  { "'la<leader>",  "91j" },
+  { "'ls<leader>",  "92j" },
+  { "'ld<leader>",  "93j" },
+  { "'lf<leader>",  "94j" },
+  { "'lg<leader>",  "95j" },
+  { "'lh<leader>",  "96j" },
+  { "'lj<leader>",  "97j" },
+  { "'lk<leader>",  "98j" },
+  { "'ll<leader>",  "99j" },
+  { "'a;;<leader>", "100j" },
+  { "'a;a<leader>", "101j" },
+  { "'a;s<leader>", "102j" },
+  { "'a;d<leader>", "103j" },
+  { "'a;f<leader>", "104j" },
+  { "'a;g<leader>", "105j" },
+  { "'a;h<leader>", "106j" },
+  { "'a;j<leader>", "107j" },
+  { "'a;k<leader>", "108j" },
+  { "'a;l<leader>", "109j" },
+  { "'aa;<leader>", "110j" },
+  { "'aaa<leader>", "111j" },
+  { "'aas<leader>", "112j" },
+  { "'aad<leader>", "113j" },
+  { "'aaf<leader>", "114j" },
+  { "'aag<leader>", "115j" },
+  { "'aah<leader>", "116j" },
+  { "'aaj<leader>", "117j" },
+  { "'aak<leader>", "118j" },
+  { "'aal<leader>", "119j" },
+  { "'as;<leader>", "120j" },
+  { "'asa<leader>", "121j" },
+  { "'ass<leader>", "122j" },
+  { "'asd<leader>", "123j" },
+  { "'asf<leader>", "124j" },
+  { "'asg<leader>", "125j" },
+  { "'ash<leader>", "126j" },
+  { "'asj<leader>", "127j" },
+  { "'ask<leader>", "128j" },
+  { "'asl<leader>", "129j" },
+  { "'ad;<leader>", "130j" },
+  { "'ada<leader>", "131j" },
+  { "'ads<leader>", "132j" },
+  { "'add<leader>", "133j" },
+  { "'adf<leader>", "134j" },
+  { "'adg<leader>", "135j" },
+  { "'adh<leader>", "136j" },
+  { "'adj<leader>", "137j" },
+  { "'adk<leader>", "138j" },
+  { "'adl<leader>", "139j" },
+  { "'af;<leader>", "140j" },
+  { "'afa<leader>", "141j" },
+  { "'afs<leader>", "142j" },
+  { "'afd<leader>", "143j" },
+  { "'aff<leader>", "144j" },
+  { "'afg<leader>", "145j" },
+  { "'afh<leader>", "146j" },
+  { "'afj<leader>", "147j" },
+  { "'afk<leader>", "148j" },
+  { "'afl<leader>", "149j" },
+  { "'ag;<leader>", "150j" },
+  { "'aga<leader>", "151j" },
+  { "'ags<leader>", "152j" },
+  { "'agd<leader>", "153j" },
+  { "'agf<leader>", "154j" },
+  { "'agg<leader>", "155j" },
+  { "'agh<leader>", "156j" },
+  { "'agj<leader>", "157j" },
+  { "'agk<leader>", "158j" },
+  { "'agl<leader>", "159j" },
+  { "'ah;<leader>", "160j" },
+  { "'aha<leader>", "161j" },
+  { "'ahs<leader>", "162j" },
+  { "'ahd<leader>", "163j" },
+  { "'ahf<leader>", "164j" },
+  { "'ahg<leader>", "165j" },
+  { "'ahh<leader>", "166j" },
+  { "'ahj<leader>", "167j" },
+  { "'ahk<leader>", "168j" },
+  { "'ahl<leader>", "169j" },
+  { "'aj;<leader>", "170j" },
+  { "'aja<leader>", "171j" },
+  { "'ajs<leader>", "172j" },
+  { "'ajd<leader>", "173j" },
+  { "'ajf<leader>", "174j" },
+  { "'ajg<leader>", "175j" },
+  { "'ajh<leader>", "176j" },
+  { "'ajj<leader>", "177j" },
+  { "'ajk<leader>", "178j" },
+  { "'ajl<leader>", "179j" },
+  { "'ak;<leader>", "180j" },
+  { "'aka<leader>", "181j" },
+  { "'aks<leader>", "182j" },
+  { "'akd<leader>", "183j" },
+  { "'akf<leader>", "184j" },
+  { "'akg<leader>", "185j" },
+  { "'akh<leader>", "186j" },
+  { "'akj<leader>", "187j" },
+  { "'akk<leader>", "188j" },
+  { "'akl<leader>", "189j" },
+  { "'al;<leader>", "190j" },
+  { "'ala<leader>", "191j" },
+  { "'als<leader>", "192j" },
+  { "'ald<leader>", "193j" },
+  { "'alf<leader>", "194j" },
+  { "'alg<leader>", "195j" },
+  { "'alh<leader>", "196j" },
+  { "'alj<leader>", "197j" },
+  { "'alk<leader>", "198j" },
+  { "'all<leader>", "199j" },
+  { "'s;;<leader>", "200j" },
+  { "'s;a<leader>", "201j" },
+  { "'s;s<leader>", "202j" },
+  { "'s;d<leader>", "203j" },
+  { "'s;f<leader>", "204j" },
+  { "'s;g<leader>", "205j" },
+  { "'s;h<leader>", "206j" },
+  { "'s;j<leader>", "207j" },
+  { "'s;k<leader>", "208j" },
+  { "'s;l<leader>", "209j" },
+  { "'sa;<leader>", "210j" },
+  { "'saa<leader>", "211j" },
+  { "'sas<leader>", "212j" },
+  { "'sad<leader>", "213j" },
+  { "'saf<leader>", "214j" },
+  { "'sag<leader>", "215j" },
+  { "'sah<leader>", "216j" },
+  { "'saj<leader>", "217j" },
+  { "'sak<leader>", "218j" },
+  { "'sal<leader>", "219j" },
+  { "'ss;<leader>", "220j" },
+  { "'ssa<leader>", "221j" },
+  { "'sss<leader>", "222j" },
+  { "'ssd<leader>", "223j" },
+  { "'ssf<leader>", "224j" },
+  { "'ssg<leader>", "225j" },
+  { "'ssh<leader>", "226j" },
+  { "'ssj<leader>", "227j" },
+  { "'ssk<leader>", "228j" },
+  { "'ssl<leader>", "229j" },
+  { "'sd;<leader>", "230j" },
+  { "'sda<leader>", "231j" },
+  { "'sds<leader>", "232j" },
+  { "'sdd<leader>", "233j" },
+  { "'sdf<leader>", "234j" },
+  { "'sdg<leader>", "235j" },
+  { "'sdh<leader>", "236j" },
+  { "'sdj<leader>", "237j" },
+  { "'sdk<leader>", "238j" },
+  { "'sdl<leader>", "239j" },
+  { "'sf;<leader>", "240j" },
+  { "'sfa<leader>", "241j" },
+  { "'sfs<leader>", "242j" },
+  { "'sfd<leader>", "243j" },
+  { "'sff<leader>", "244j" },
+  { "'sfg<leader>", "245j" },
+  { "'sfh<leader>", "246j" },
+  { "'sfj<leader>", "247j" },
+  { "'sfk<leader>", "248j" },
+  { "'sfl<leader>", "249j" },
+  { "'sg;<leader>", "250j" },
+  { "'sga<leader>", "251j" },
+  { "'sgs<leader>", "252j" },
+  { "'sgd<leader>", "253j" },
+  { "'sgf<leader>", "254j" },
+  { "'sgg<leader>", "255j" },
+  { "'sgh<leader>", "256j" },
+  { "'sgj<leader>", "257j" },
+  { "'sgk<leader>", "258j" },
+  { "'sgl<leader>", "259j" },
+  { "'sh;<leader>", "260j" },
+  { "'sha<leader>", "261j" },
+  { "'shs<leader>", "262j" },
+  { "'shd<leader>", "263j" },
+  { "'shf<leader>", "264j" },
+  { "'shg<leader>", "265j" },
+  { "'shh<leader>", "266j" },
+  { "'shj<leader>", "267j" },
+  { "'shk<leader>", "268j" },
+  { "'shl<leader>", "269j" },
+  { "'sj;<leader>", "270j" },
+  { "'sja<leader>", "271j" },
+  { "'sjs<leader>", "272j" },
+  { "'sjd<leader>", "273j" },
+  { "'sjf<leader>", "274j" },
+  { "'sjg<leader>", "275j" },
+  { "'sjh<leader>", "276j" },
+  { "'sjj<leader>", "277j" },
+  { "'sjk<leader>", "278j" },
+  { "'sjl<leader>", "279j" },
+  { "'sk;<leader>", "280j" },
+  { "'ska<leader>", "281j" },
+  { "'sks<leader>", "282j" },
+  { "'skd<leader>", "283j" },
+  { "'skf<leader>", "284j" },
+  { "'skg<leader>", "285j" },
+  { "'skh<leader>", "286j" },
+  { "'skj<leader>", "287j" },
+  { "'skk<leader>", "288j" },
+  { "'skl<leader>", "289j" },
+  { "'sl;<leader>", "290j" },
+  { "'sla<leader>", "291j" },
+  { "'sls<leader>", "292j" },
+  { "'sld<leader>", "293j" },
+  { "'slf<leader>", "294j" },
+  { "'slg<leader>", "295j" },
+  { "'slh<leader>", "296j" },
+  { "'slj<leader>", "297j" },
+  { "'slk<leader>", "298j" },
+  { "'sll<leader>", "299j" },
+  { "'d;;<leader>", "300j" },
+  { "'d;a<leader>", "301j" },
+  { "'d;s<leader>", "302j" },
+  { "'d;d<leader>", "303j" },
+  { "'d;f<leader>", "304j" },
+  { "'d;g<leader>", "305j" },
+  { "'d;h<leader>", "306j" },
+  { "'d;j<leader>", "307j" },
+  { "'d;k<leader>", "308j" },
+  { "'d;l<leader>", "309j" },
+  { "'da;<leader>", "310j" },
+  { "'daa<leader>", "311j" },
+  { "'das<leader>", "312j" },
+  { "'dad<leader>", "313j" },
+  { "'daf<leader>", "314j" },
+  { "'dag<leader>", "315j" },
+  { "'dah<leader>", "316j" },
+  { "'daj<leader>", "317j" },
+  { "'dak<leader>", "318j" },
+  { "'dal<leader>", "319j" },
+  { "'ds;<leader>", "320j" },
+  { "'dsa<leader>", "321j" },
+  { "'dss<leader>", "322j" },
+  { "'dsd<leader>", "323j" },
+  { "'dsf<leader>", "324j" },
+  { "'dsg<leader>", "325j" },
+  { "'dsh<leader>", "326j" },
+  { "'dsj<leader>", "327j" },
+  { "'dsk<leader>", "328j" },
+  { "'dsl<leader>", "329j" },
+  { "'dd;<leader>", "330j" },
+  { "'dda<leader>", "331j" },
+  { "'dds<leader>", "332j" },
+  { "'ddd<leader>", "333j" },
+  { "'ddf<leader>", "334j" },
+  { "'ddg<leader>", "335j" },
+  { "'ddh<leader>", "336j" },
+  { "'ddj<leader>", "337j" },
+  { "'ddk<leader>", "338j" },
+  { "'ddl<leader>", "339j" },
+  { "'df;<leader>", "340j" },
+  { "'dfa<leader>", "341j" },
+  { "'dfs<leader>", "342j" },
+  { "'dfd<leader>", "343j" },
+  { "'dff<leader>", "344j" },
+  { "'dfg<leader>", "345j" },
+  { "'dfh<leader>", "346j" },
+  { "'dfj<leader>", "347j" },
+  { "'dfk<leader>", "348j" },
+  { "'dfl<leader>", "349j" },
+  { "'dg;<leader>", "350j" },
+  { "'dga<leader>", "351j" },
+  { "'dgs<leader>", "352j" },
+  { "'dgd<leader>", "353j" },
+  { "'dgf<leader>", "354j" },
+  { "'dgg<leader>", "355j" },
+  { "'dgh<leader>", "356j" },
+  { "'dgj<leader>", "357j" },
+  { "'dgk<leader>", "358j" },
+  { "'dgl<leader>", "359j" },
+  { "'dh;<leader>", "360j" },
+  { "'dha<leader>", "361j" },
+  { "'dhs<leader>", "362j" },
+  { "'dhd<leader>", "363j" },
+  { "'dhf<leader>", "364j" },
+  { "'dhg<leader>", "365j" },
+  { "'dhh<leader>", "366j" },
+  { "'dhj<leader>", "367j" },
+  { "'dhk<leader>", "368j" },
+  { "'dhl<leader>", "369j" },
+  { "'dj;<leader>", "370j" },
+  { "'dja<leader>", "371j" },
+  { "'djs<leader>", "372j" },
+  { "'djd<leader>", "373j" },
+  { "'djf<leader>", "374j" },
+  { "'djg<leader>", "375j" },
+  { "'djh<leader>", "376j" },
+  { "'djj<leader>", "377j" },
+  { "'djk<leader>", "378j" },
+  { "'djl<leader>", "379j" },
+  { "'dk;<leader>", "380j" },
+  { "'dka<leader>", "381j" },
+  { "'dks<leader>", "382j" },
+  { "'dkd<leader>", "383j" },
+  { "'dkf<leader>", "384j" },
+  { "'dkg<leader>", "385j" },
+  { "'dkh<leader>", "386j" },
+  { "'dkj<leader>", "387j" },
+  { "'dkk<leader>", "388j" },
+  { "'dkl<leader>", "389j" },
+  { "'dl;<leader>", "390j" },
+  { "'dla<leader>", "391j" },
+  { "'dls<leader>", "392j" },
+  { "'dld<leader>", "393j" },
+  { "'dlf<leader>", "394j" },
+  { "'dlg<leader>", "395j" },
+  { "'dlh<leader>", "396j" },
+  { "'dlj<leader>", "397j" },
+  { "'dlk<leader>", "398j" },
+  { "'dll<leader>", "399j" },
+  { "'f;;<leader>", "400j" },
+  { "[a<leader>",   "1k" },
+  { "[s<leader>",   "2k" },
+  { "[d<leader>",   "3k" },
+  { "[f<leader>",   "4k" },
+  { "[g<leader>",   "5k" },
+  { "[h<leader>",   "6k" },
+  { "[j<leader>",   "7k" },
+  { "[k<leader>",   "8k" },
+  { "[l<leader>",   "9k" },
+  { "[a;<leader>",  "10k" },
+  { "[aa<leader>",  "11k" },
+  { "[as<leader>",  "12k" },
+  { "[ad<leader>",  "13k" },
+  { "[af<leader>",  "14k" },
+  { "[ag<leader>",  "15k" },
+  { "[ah<leader>",  "16k" },
+  { "[aj<leader>",  "17k" },
+  { "[ak<leader>",  "18k" },
+  { "[al<leader>",  "19k" },
+  { "[s;<leader>",  "20k" },
+  { "[sa<leader>",  "21k" },
+  { "[ss<leader>",  "22k" },
+  { "[sd<leader>",  "23k" },
+  { "[sf<leader>",  "24k" },
+  { "[sg<leader>",  "25k" },
+  { "[sh<leader>",  "26k" },
+  { "[sj<leader>",  "27k" },
+  { "[sk<leader>",  "28k" },
+  { "[sl<leader>",  "29k" },
+  { "[d;<leader>",  "30k" },
+  { "[da<leader>",  "31k" },
+  { "[ds<leader>",  "32k" },
+  { "[dd<leader>",  "33k" },
+  { "[df<leader>",  "34k" },
+  { "[dg<leader>",  "35k" },
+  { "[dh<leader>",  "36k" },
+  { "[dj<leader>",  "37k" },
+  { "[dk<leader>",  "38k" },
+  { "[dl<leader>",  "39k" },
+  { "[f;<leader>",  "40k" },
+  { "[fa<leader>",  "41k" },
+  { "[fs<leader>",  "42k" },
+  { "[fd<leader>",  "43k" },
+  { "[ff<leader>",  "44k" },
+  { "[fg<leader>",  "45k" },
+  { "[fh<leader>",  "46k" },
+  { "[fj<leader>",  "47k" },
+  { "[fk<leader>",  "48k" },
+  { "[fl<leader>",  "49k" },
+  { "[g;<leader>",  "50k" },
+  { "[ga<leader>",  "51k" },
+  { "[gs<leader>",  "52k" },
+  { "[gd<leader>",  "53k" },
+  { "[gf<leader>",  "54k" },
+  { "[gg<leader>",  "55k" },
+  { "[gh<leader>",  "56k" },
+  { "[gj<leader>",  "57k" },
+  { "[gk<leader>",  "58k" },
+  { "[gl<leader>",  "59k" },
+  { "[h;<leader>",  "60k" },
+  { "[ha<leader>",  "61k" },
+  { "[hs<leader>",  "62k" },
+  { "[hd<leader>",  "63k" },
+  { "[hf<leader>",  "64k" },
+  { "[hg<leader>",  "65k" },
+  { "[hh<leader>",  "66k" },
+  { "[hj<leader>",  "67k" },
+  { "[hk<leader>",  "68k" },
+  { "[hl<leader>",  "69k" },
+  { "[j;<leader>",  "70k" },
+  { "[ja<leader>",  "71k" },
+  { "[js<leader>",  "72k" },
+  { "[jd<leader>",  "73k" },
+  { "[jf<leader>",  "74k" },
+  { "[jg<leader>",  "75k" },
+  { "[jh<leader>",  "76k" },
+  { "[jj<leader>",  "77k" },
+  { "[jk<leader>",  "78k" },
+  { "[jl<leader>",  "79k" },
+  { "[k;<leader>",  "80k" },
+  { "[ka<leader>",  "81k" },
+  { "[ks<leader>",  "82k" },
+  { "[kd<leader>",  "83k" },
+  { "[kf<leader>",  "84k" },
+  { "[kg<leader>",  "85k" },
+  { "[kh<leader>",  "86k" },
+  { "[kj<leader>",  "87k" },
+  { "[kk<leader>",  "88k" },
+  { "[kl<leader>",  "89k" },
+  { "[l;<leader>",  "90k" },
+  { "[la<leader>",  "91k" },
+  { "[ls<leader>",  "92k" },
+  { "[ld<leader>",  "93k" },
+  { "[lf<leader>",  "94k" },
+  { "[lg<leader>",  "95k" },
+  { "[lh<leader>",  "96k" },
+  { "[lj<leader>",  "97k" },
+  { "[lk<leader>",  "98k" },
+  { "[ll<leader>",  "99k" },
+  { "[a;;<leader>", "100k" },
+  { "[a;a<leader>", "101k" },
+  { "[a;s<leader>", "102k" },
+  { "[a;d<leader>", "103k" },
+  { "[a;f<leader>", "104k" },
+  { "[a;g<leader>", "105k" },
+  { "[a;h<leader>", "106k" },
+  { "[a;j<leader>", "107k" },
+  { "[a;k<leader>", "108k" },
+  { "[a;l<leader>", "109k" },
+  { "[aa;<leader>", "110k" },
+  { "[aaa<leader>", "111k" },
+  { "[aas<leader>", "112k" },
+  { "[aad<leader>", "113k" },
+  { "[aaf<leader>", "114k" },
+  { "[aag<leader>", "115k" },
+  { "[aah<leader>", "116k" },
+  { "[aaj<leader>", "117k" },
+  { "[aak<leader>", "118k" },
+  { "[aal<leader>", "119k" },
+  { "[as;<leader>", "120k" },
+  { "[asa<leader>", "121k" },
+  { "[ass<leader>", "122k" },
+  { "[asd<leader>", "123k" },
+  { "[asf<leader>", "124k" },
+  { "[asg<leader>", "125k" },
+  { "[ash<leader>", "126k" },
+  { "[asj<leader>", "127k" },
+  { "[ask<leader>", "128k" },
+  { "[asl<leader>", "129k" },
+  { "[ad;<leader>", "130k" },
+  { "[ada<leader>", "131k" },
+  { "[ads<leader>", "132k" },
+  { "[add<leader>", "133k" },
+  { "[adf<leader>", "134k" },
+  { "[adg<leader>", "135k" },
+  { "[adh<leader>", "136k" },
+  { "[adj<leader>", "137k" },
+  { "[adk<leader>", "138k" },
+  { "[adl<leader>", "139k" },
+  { "[af;<leader>", "140k" },
+  { "[afa<leader>", "141k" },
+  { "[afs<leader>", "142k" },
+  { "[afd<leader>", "143k" },
+  { "[aff<leader>", "144k" },
+  { "[afg<leader>", "145k" },
+  { "[afh<leader>", "146k" },
+  { "[afj<leader>", "147k" },
+  { "[afk<leader>", "148k" },
+  { "[afl<leader>", "149k" },
+  { "[ag;<leader>", "150k" },
+  { "[aga<leader>", "151k" },
+  { "[ags<leader>", "152k" },
+  { "[agd<leader>", "153k" },
+  { "[agf<leader>", "154k" },
+  { "[agg<leader>", "155k" },
+  { "[agh<leader>", "156k" },
+  { "[agj<leader>", "157k" },
+  { "[agk<leader>", "158k" },
+  { "[agl<leader>", "159k" },
+  { "[ah;<leader>", "160k" },
+  { "[aha<leader>", "161k" },
+  { "[ahs<leader>", "162k" },
+  { "[ahd<leader>", "163k" },
+  { "[ahf<leader>", "164k" },
+  { "[ahg<leader>", "165k" },
+  { "[ahh<leader>", "166k" },
+  { "[ahj<leader>", "167k" },
+  { "[ahk<leader>", "168k" },
+  { "[ahl<leader>", "169k" },
+  { "[aj;<leader>", "170k" },
+  { "[aja<leader>", "171k" },
+  { "[ajs<leader>", "172k" },
+  { "[ajd<leader>", "173k" },
+  { "[ajf<leader>", "174k" },
+  { "[ajg<leader>", "175k" },
+  { "[ajh<leader>", "176k" },
+  { "[ajj<leader>", "177k" },
+  { "[ajk<leader>", "178k" },
+  { "[ajl<leader>", "179k" },
+  { "[ak;<leader>", "180k" },
+  { "[aka<leader>", "181k" },
+  { "[aks<leader>", "182k" },
+  { "[akd<leader>", "183k" },
+  { "[akf<leader>", "184k" },
+  { "[akg<leader>", "185k" },
+  { "[akh<leader>", "186k" },
+  { "[akj<leader>", "187k" },
+  { "[akk<leader>", "188k" },
+  { "[akl<leader>", "189k" },
+  { "[al;<leader>", "190k" },
+  { "[ala<leader>", "191k" },
+  { "[als<leader>", "192k" },
+  { "[ald<leader>", "193k" },
+  { "[alf<leader>", "194k" },
+  { "[alg<leader>", "195k" },
+  { "[alh<leader>", "196k" },
+  { "[alj<leader>", "197k" },
+  { "[alk<leader>", "198k" },
+  { "[all<leader>", "199k" },
+  { "[s;;<leader>", "200k" },
+  { "[s;a<leader>", "201k" },
+  { "[s;s<leader>", "202k" },
+  { "[s;d<leader>", "203k" },
+  { "[s;f<leader>", "204k" },
+  { "[s;g<leader>", "205k" },
+  { "[s;h<leader>", "206k" },
+  { "[s;j<leader>", "207k" },
+  { "[s;k<leader>", "208k" },
+  { "[s;l<leader>", "209k" },
+  { "[sa;<leader>", "210k" },
+  { "[saa<leader>", "211k" },
+  { "[sas<leader>", "212k" },
+  { "[sad<leader>", "213k" },
+  { "[saf<leader>", "214k" },
+  { "[sag<leader>", "215k" },
+  { "[sah<leader>", "216k" },
+  { "[saj<leader>", "217k" },
+  { "[sak<leader>", "218k" },
+  { "[sal<leader>", "219k" },
+  { "[ss;<leader>", "220k" },
+  { "[ssa<leader>", "221k" },
+  { "[sss<leader>", "222k" },
+  { "[ssd<leader>", "223k" },
+  { "[ssf<leader>", "224k" },
+  { "[ssg<leader>", "225k" },
+  { "[ssh<leader>", "226k" },
+  { "[ssj<leader>", "227k" },
+  { "[ssk<leader>", "228k" },
+  { "[ssl<leader>", "229k" },
+  { "[sd;<leader>", "230k" },
+  { "[sda<leader>", "231k" },
+  { "[sds<leader>", "232k" },
+  { "[sdd<leader>", "233k" },
+  { "[sdf<leader>", "234k" },
+  { "[sdg<leader>", "235k" },
+  { "[sdh<leader>", "236k" },
+  { "[sdj<leader>", "237k" },
+  { "[sdk<leader>", "238k" },
+  { "[sdl<leader>", "239k" },
+  { "[sf;<leader>", "240k" },
+  { "[sfa<leader>", "241k" },
+  { "[sfs<leader>", "242k" },
+  { "[sfd<leader>", "243k" },
+  { "[sff<leader>", "244k" },
+  { "[sfg<leader>", "245k" },
+  { "[sfh<leader>", "246k" },
+  { "[sfj<leader>", "247k" },
+  { "[sfk<leader>", "248k" },
+  { "[sfl<leader>", "249k" },
+  { "[sg;<leader>", "250k" },
+  { "[sga<leader>", "251k" },
+  { "[sgs<leader>", "252k" },
+  { "[sgd<leader>", "253k" },
+  { "[sgf<leader>", "254k" },
+  { "[sgg<leader>", "255k" },
+  { "[sgh<leader>", "256k" },
+  { "[sgj<leader>", "257k" },
+  { "[sgk<leader>", "258k" },
+  { "[sgl<leader>", "259k" },
+  { "[sh;<leader>", "260k" },
+  { "[sha<leader>", "261k" },
+  { "[shs<leader>", "262k" },
+  { "[shd<leader>", "263k" },
+  { "[shf<leader>", "264k" },
+  { "[shg<leader>", "265k" },
+  { "[shh<leader>", "266k" },
+  { "[shj<leader>", "267k" },
+  { "[shk<leader>", "268k" },
+  { "[shl<leader>", "269k" },
+  { "[sj;<leader>", "270k" },
+  { "[sja<leader>", "271k" },
+  { "[sjs<leader>", "272k" },
+  { "[sjd<leader>", "273k" },
+  { "[sjf<leader>", "274k" },
+  { "[sjg<leader>", "275k" },
+  { "[sjh<leader>", "276k" },
+  { "[sjj<leader>", "277k" },
+  { "[sjk<leader>", "278k" },
+  { "[sjl<leader>", "279k" },
+  { "[sk;<leader>", "280k" },
+  { "[ska<leader>", "281k" },
+  { "[sks<leader>", "282k" },
+  { "[skd<leader>", "283k" },
+  { "[skf<leader>", "284k" },
+  { "[skg<leader>", "285k" },
+  { "[skh<leader>", "286k" },
+  { "[skj<leader>", "287k" },
+  { "[skk<leader>", "288k" },
+  { "[skl<leader>", "289k" },
+  { "[sl;<leader>", "290k" },
+  { "[sla<leader>", "291k" },
+  { "[sls<leader>", "292k" },
+  { "[sld<leader>", "293k" },
+  { "[slf<leader>", "294k" },
+  { "[slg<leader>", "295k" },
+  { "[slh<leader>", "296k" },
+  { "[slj<leader>", "297k" },
+  { "[slk<leader>", "298k" },
+  { "[sll<leader>", "299k" },
+  { "[d;;<leader>", "300k" },
+  { "[d;a<leader>", "301k" },
+  { "[d;s<leader>", "302k" },
+  { "[d;d<leader>", "303k" },
+  { "[d;f<leader>", "304k" },
+  { "[d;g<leader>", "305k" },
+  { "[d;h<leader>", "306k" },
+  { "[d;j<leader>", "307k" },
+  { "[d;k<leader>", "308k" },
+  { "[d;l<leader>", "309k" },
+  { "[da;<leader>", "310k" },
+  { "[daa<leader>", "311k" },
+  { "[das<leader>", "312k" },
+  { "[dad<leader>", "313k" },
+  { "[daf<leader>", "314k" },
+  { "[dag<leader>", "315k" },
+  { "[dah<leader>", "316k" },
+  { "[daj<leader>", "317k" },
+  { "[dak<leader>", "318k" },
+  { "[dal<leader>", "319k" },
+  { "[ds;<leader>", "320k" },
+  { "[dsa<leader>", "321k" },
+  { "[dss<leader>", "322k" },
+  { "[dsd<leader>", "323k" },
+  { "[dsf<leader>", "324k" },
+  { "[dsg<leader>", "325k" },
+  { "[dsh<leader>", "326k" },
+  { "[dsj<leader>", "327k" },
+  { "[dsk<leader>", "328k" },
+  { "[dsl<leader>", "329k" },
+  { "[dd;<leader>", "330k" },
+  { "[dda<leader>", "331k" },
+  { "[dds<leader>", "332k" },
+  { "[ddd<leader>", "333k" },
+  { "[ddf<leader>", "334k" },
+  { "[ddg<leader>", "335k" },
+  { "[ddh<leader>", "336k" },
+  { "[ddj<leader>", "337k" },
+  { "[ddk<leader>", "338k" },
+  { "[ddl<leader>", "339k" },
+  { "[df;<leader>", "340k" },
+  { "[dfa<leader>", "341k" },
+  { "[dfs<leader>", "342k" },
+  { "[dfd<leader>", "343k" },
+  { "[dff<leader>", "344k" },
+  { "[dfg<leader>", "345k" },
+  { "[dfh<leader>", "346k" },
+  { "[dfj<leader>", "347k" },
+  { "[dfk<leader>", "348k" },
+  { "[dfl<leader>", "349k" },
+  { "[dg;<leader>", "350k" },
+  { "[dga<leader>", "351k" },
+  { "[dgs<leader>", "352k" },
+  { "[dgd<leader>", "353k" },
+  { "[dgf<leader>", "354k" },
+  { "[dgg<leader>", "355k" },
+  { "[dgh<leader>", "356k" },
+  { "[dgj<leader>", "357k" },
+  { "[dgk<leader>", "358k" },
+  { "[dgl<leader>", "359k" },
+  { "[dh;<leader>", "360k" },
+  { "[dha<leader>", "361k" },
+  { "[dhs<leader>", "362k" },
+  { "[dhd<leader>", "363k" },
+  { "[dhf<leader>", "364k" },
+  { "[dhg<leader>", "365k" },
+  { "[dhh<leader>", "366k" },
+  { "[dhj<leader>", "367k" },
+  { "[dhk<leader>", "368k" },
+  { "[dhl<leader>", "369k" },
+  { "[dj;<leader>", "370k" },
+  { "[dja<leader>", "371k" },
+  { "[djs<leader>", "372k" },
+  { "[djd<leader>", "373k" },
+  { "[djf<leader>", "374k" },
+  { "[djg<leader>", "375k" },
+  { "[djh<leader>", "376k" },
+  { "[djj<leader>", "377k" },
+  { "[djk<leader>", "378k" },
+  { "[djl<leader>", "379k" },
+  { "[dk;<leader>", "380k" },
+  { "[dka<leader>", "381k" },
+  { "[dks<leader>", "382k" },
+  { "[dkd<leader>", "383k" },
+  { "[dkf<leader>", "384k" },
+  { "[dkg<leader>", "385k" },
+  { "[dkh<leader>", "386k" },
+  { "[dkj<leader>", "387k" },
+  { "[dkk<leader>", "388k" },
+  { "[dkl<leader>", "389k" },
+  { "[dl;<leader>", "390k" },
+  { "[dla<leader>", "391k" },
+  { "[dls<leader>", "392k" },
+  { "[dld<leader>", "393k" },
+  { "[dlf<leader>", "394k" },
+  { "[dlg<leader>", "395k" },
+  { "[dlh<leader>", "396k" },
+  { "[dlj<leader>", "397k" },
+  { "[dlk<leader>", "398k" },
+  { "[dll<leader>", "399k" },
+  { "[f;;<leader>", "400k" },
+}
 
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   callback = function()
-    map("'a<leader>", "1j")
-    map("'s<leader>", "2j")
-    map("'d<leader>", "3j")
-    map("'f<leader>", "4j")
-    map("'g<leader>", "5j")
-    map("'h<leader>", "6j")
-    map("'j<leader>", "7j")
-    map("'k<leader>", "8j")
-    map("'l<leader>", "9j")
-    map("'a;<leader>", "10j")
-    map("'aa<leader>", "11j")
-    map("'as<leader>", "12j")
-    map("'ad<leader>", "13j")
-    map("'af<leader>", "14j")
-    map("'ag<leader>", "15j")
-    map("'ah<leader>", "16j")
-    map("'aj<leader>", "17j")
-    map("'ak<leader>", "18j")
-    map("'al<leader>", "19j")
-    map("'s;<leader>", "20j")
-    map("'sa<leader>", "21j")
-    map("'ss<leader>", "22j")
-    map("'sd<leader>", "23j")
-    map("'sf<leader>", "24j")
-    map("'sg<leader>", "25j")
-    map("'sh<leader>", "26j")
-    map("'sj<leader>", "27j")
-    map("'sk<leader>", "28j")
-    map("'sl<leader>", "29j")
-    map("'d;<leader>", "30j")
-    map("'da<leader>", "31j")
-    map("'ds<leader>", "32j")
-    map("'dd<leader>", "33j")
-    map("'df<leader>", "34j")
-    map("'dg<leader>", "35j")
-    map("'dh<leader>", "36j")
-    map("'dj<leader>", "37j")
-    map("'dk<leader>", "38j")
-    map("'dl<leader>", "39j")
-    map("'f;<leader>", "40j")
-    map("'fa<leader>", "41j")
-    map("'fs<leader>", "42j")
-    map("'fd<leader>", "43j")
-    map("'ff<leader>", "44j")
-    map("'fg<leader>", "45j")
-    map("'fh<leader>", "46j")
-    map("'fj<leader>", "47j")
-    map("'fk<leader>", "48j")
-    map("'fl<leader>", "49j")
-    map("'g;<leader>", "50j")
-    map("'ga<leader>", "51j")
-    map("'gs<leader>", "52j")
-    map("'gd<leader>", "53j")
-    map("'gf<leader>", "54j")
-    map("'gg<leader>", "55j")
-    map("'gh<leader>", "56j")
-    map("'gj<leader>", "57j")
-    map("'gk<leader>", "58j")
-    map("'gl<leader>", "59j")
-    map("'h;<leader>", "60j")
-    map("'ha<leader>", "61j")
-    map("'hs<leader>", "62j")
-    map("'hd<leader>", "63j")
-    map("'hf<leader>", "64j")
-    map("'hg<leader>", "65j")
-    map("'hh<leader>", "66j")
-    map("'hj<leader>", "67j")
-    map("'hk<leader>", "68j")
-    map("'hl<leader>", "69j")
-    map("'j;<leader>", "70j")
-    map("'ja<leader>", "71j")
-    map("'js<leader>", "72j")
-    map("'jd<leader>", "73j")
-    map("'jf<leader>", "74j")
-    map("'jg<leader>", "75j")
-    map("'jh<leader>", "76j")
-    map("'jj<leader>", "77j")
-    map("'jk<leader>", "78j")
-    map("'jl<leader>", "79j")
-    map("'k;<leader>", "80j")
-    map("'ka<leader>", "81j")
-    map("'ks<leader>", "82j")
-    map("'kd<leader>", "83j")
-    map("'kf<leader>", "84j")
-    map("'kg<leader>", "85j")
-    map("'kh<leader>", "86j")
-    map("'kj<leader>", "87j")
-    map("'kk<leader>", "88j")
-    map("'kl<leader>", "89j")
-    map("'l;<leader>", "90j")
-    map("'la<leader>", "91j")
-    map("'ls<leader>", "92j")
-    map("'ld<leader>", "93j")
-    map("'lf<leader>", "94j")
-    map("'lg<leader>", "95j")
-    map("'lh<leader>", "96j")
-    map("'lj<leader>", "97j")
-    map("'lk<leader>", "98j")
-    map("'ll<leader>", "99j")
-    map("'a;;<leader>", "100j")
-    map("'a;a<leader>", "101j")
-    map("'a;s<leader>", "102j")
-    map("'a;d<leader>", "103j")
-    map("'a;f<leader>", "104j")
-    map("'a;g<leader>", "105j")
-    map("'a;h<leader>", "106j")
-    map("'a;j<leader>", "107j")
-    map("'a;k<leader>", "108j")
-    map("'a;l<leader>", "109j")
-    map("'aa;<leader>", "110j")
-    map("'aaa<leader>", "111j")
-    map("'aas<leader>", "112j")
-    map("'aad<leader>", "113j")
-    map("'aaf<leader>", "114j")
-    map("'aag<leader>", "115j")
-    map("'aah<leader>", "116j")
-    map("'aaj<leader>", "117j")
-    map("'aak<leader>", "118j")
-    map("'aal<leader>", "119j")
-    map("'as;<leader>", "120j")
-    map("'asa<leader>", "121j")
-    map("'ass<leader>", "122j")
-    map("'asd<leader>", "123j")
-    map("'asf<leader>", "124j")
-    map("'asg<leader>", "125j")
-    map("'ash<leader>", "126j")
-    map("'asj<leader>", "127j")
-    map("'ask<leader>", "128j")
-    map("'asl<leader>", "129j")
-    map("'ad;<leader>", "130j")
-    map("'ada<leader>", "131j")
-    map("'ads<leader>", "132j")
-    map("'add<leader>", "133j")
-    map("'adf<leader>", "134j")
-    map("'adg<leader>", "135j")
-    map("'adh<leader>", "136j")
-    map("'adj<leader>", "137j")
-    map("'adk<leader>", "138j")
-    map("'adl<leader>", "139j")
-    map("'af;<leader>", "140j")
-    map("'afa<leader>", "141j")
-    map("'afs<leader>", "142j")
-    map("'afd<leader>", "143j")
-    map("'aff<leader>", "144j")
-    map("'afg<leader>", "145j")
-    map("'afh<leader>", "146j")
-    map("'afj<leader>", "147j")
-    map("'afk<leader>", "148j")
-    map("'afl<leader>", "149j")
-    map("'ag;<leader>", "150j")
-    map("'aga<leader>", "151j")
-    map("'ags<leader>", "152j")
-    map("'agd<leader>", "153j")
-    map("'agf<leader>", "154j")
-    map("'agg<leader>", "155j")
-    map("'agh<leader>", "156j")
-    map("'agj<leader>", "157j")
-    map("'agk<leader>", "158j")
-    map("'agl<leader>", "159j")
-    map("'ah;<leader>", "160j")
-    map("'aha<leader>", "161j")
-    map("'ahs<leader>", "162j")
-    map("'ahd<leader>", "163j")
-    map("'ahf<leader>", "164j")
-    map("'ahg<leader>", "165j")
-    map("'ahh<leader>", "166j")
-    map("'ahj<leader>", "167j")
-    map("'ahk<leader>", "168j")
-    map("'ahl<leader>", "169j")
-    map("'aj;<leader>", "170j")
-    map("'aja<leader>", "171j")
-    map("'ajs<leader>", "172j")
-    map("'ajd<leader>", "173j")
-    map("'ajf<leader>", "174j")
-    map("'ajg<leader>", "175j")
-    map("'ajh<leader>", "176j")
-    map("'ajj<leader>", "177j")
-    map("'ajk<leader>", "178j")
-    map("'ajl<leader>", "179j")
-    map("'ak;<leader>", "180j")
-    map("'aka<leader>", "181j")
-    map("'aks<leader>", "182j")
-    map("'akd<leader>", "183j")
-    map("'akf<leader>", "184j")
-    map("'akg<leader>", "185j")
-    map("'akh<leader>", "186j")
-    map("'akj<leader>", "187j")
-    map("'akk<leader>", "188j")
-    map("'akl<leader>", "189j")
-    map("'al;<leader>", "190j")
-    map("'ala<leader>", "191j")
-    map("'als<leader>", "192j")
-    map("'ald<leader>", "193j")
-    map("'alf<leader>", "194j")
-    map("'alg<leader>", "195j")
-    map("'alh<leader>", "196j")
-    map("'alj<leader>", "197j")
-    map("'alk<leader>", "198j")
-    map("'all<leader>", "199j")
-    map("'s;;<leader>", "200j")
-    map("'s;a<leader>", "201j")
-    map("'s;s<leader>", "202j")
-    map("'s;d<leader>", "203j")
-    map("'s;f<leader>", "204j")
-    map("'s;g<leader>", "205j")
-    map("'s;h<leader>", "206j")
-    map("'s;j<leader>", "207j")
-    map("'s;k<leader>", "208j")
-    map("'s;l<leader>", "209j")
-    map("'sa;<leader>", "210j")
-    map("'saa<leader>", "211j")
-    map("'sas<leader>", "212j")
-    map("'sad<leader>", "213j")
-    map("'saf<leader>", "214j")
-    map("'sag<leader>", "215j")
-    map("'sah<leader>", "216j")
-    map("'saj<leader>", "217j")
-    map("'sak<leader>", "218j")
-    map("'sal<leader>", "219j")
-    map("'ss;<leader>", "220j")
-    map("'ssa<leader>", "221j")
-    map("'sss<leader>", "222j")
-    map("'ssd<leader>", "223j")
-    map("'ssf<leader>", "224j")
-    map("'ssg<leader>", "225j")
-    map("'ssh<leader>", "226j")
-    map("'ssj<leader>", "227j")
-    map("'ssk<leader>", "228j")
-    map("'ssl<leader>", "229j")
-    map("'sd;<leader>", "230j")
-    map("'sda<leader>", "231j")
-    map("'sds<leader>", "232j")
-    map("'sdd<leader>", "233j")
-    map("'sdf<leader>", "234j")
-    map("'sdg<leader>", "235j")
-    map("'sdh<leader>", "236j")
-    map("'sdj<leader>", "237j")
-    map("'sdk<leader>", "238j")
-    map("'sdl<leader>", "239j")
-    map("'sf;<leader>", "240j")
-    map("'sfa<leader>", "241j")
-    map("'sfs<leader>", "242j")
-    map("'sfd<leader>", "243j")
-    map("'sff<leader>", "244j")
-    map("'sfg<leader>", "245j")
-    map("'sfh<leader>", "246j")
-    map("'sfj<leader>", "247j")
-    map("'sfk<leader>", "248j")
-    map("'sfl<leader>", "249j")
-    map("'sg;<leader>", "250j")
-    map("'sga<leader>", "251j")
-    map("'sgs<leader>", "252j")
-    map("'sgd<leader>", "253j")
-    map("'sgf<leader>", "254j")
-    map("'sgg<leader>", "255j")
-    map("'sgh<leader>", "256j")
-    map("'sgj<leader>", "257j")
-    map("'sgk<leader>", "258j")
-    map("'sgl<leader>", "259j")
-    map("'sh;<leader>", "260j")
-    map("'sha<leader>", "261j")
-    map("'shs<leader>", "262j")
-    map("'shd<leader>", "263j")
-    map("'shf<leader>", "264j")
-    map("'shg<leader>", "265j")
-    map("'shh<leader>", "266j")
-    map("'shj<leader>", "267j")
-    map("'shk<leader>", "268j")
-    map("'shl<leader>", "269j")
-    map("'sj;<leader>", "270j")
-    map("'sja<leader>", "271j")
-    map("'sjs<leader>", "272j")
-    map("'sjd<leader>", "273j")
-    map("'sjf<leader>", "274j")
-    map("'sjg<leader>", "275j")
-    map("'sjh<leader>", "276j")
-    map("'sjj<leader>", "277j")
-    map("'sjk<leader>", "278j")
-    map("'sjl<leader>", "279j")
-    map("'sk;<leader>", "280j")
-    map("'ska<leader>", "281j")
-    map("'sks<leader>", "282j")
-    map("'skd<leader>", "283j")
-    map("'skf<leader>", "284j")
-    map("'skg<leader>", "285j")
-    map("'skh<leader>", "286j")
-    map("'skj<leader>", "287j")
-    map("'skk<leader>", "288j")
-    map("'skl<leader>", "289j")
-    map("'sl;<leader>", "290j")
-    map("'sla<leader>", "291j")
-    map("'sls<leader>", "292j")
-    map("'sld<leader>", "293j")
-    map("'slf<leader>", "294j")
-    map("'slg<leader>", "295j")
-    map("'slh<leader>", "296j")
-    map("'slj<leader>", "297j")
-    map("'slk<leader>", "298j")
-    map("'sll<leader>", "299j")
-    map("'d;;<leader>", "300j")
-    map("'d;a<leader>", "301j")
-    map("'d;s<leader>", "302j")
-    map("'d;d<leader>", "303j")
-    map("'d;f<leader>", "304j")
-    map("'d;g<leader>", "305j")
-    map("'d;h<leader>", "306j")
-    map("'d;j<leader>", "307j")
-    map("'d;k<leader>", "308j")
-    map("'d;l<leader>", "309j")
-    map("'da;<leader>", "310j")
-    map("'daa<leader>", "311j")
-    map("'das<leader>", "312j")
-    map("'dad<leader>", "313j")
-    map("'daf<leader>", "314j")
-    map("'dag<leader>", "315j")
-    map("'dah<leader>", "316j")
-    map("'daj<leader>", "317j")
-    map("'dak<leader>", "318j")
-    map("'dal<leader>", "319j")
-    map("'ds;<leader>", "320j")
-    map("'dsa<leader>", "321j")
-    map("'dss<leader>", "322j")
-    map("'dsd<leader>", "323j")
-    map("'dsf<leader>", "324j")
-    map("'dsg<leader>", "325j")
-    map("'dsh<leader>", "326j")
-    map("'dsj<leader>", "327j")
-    map("'dsk<leader>", "328j")
-    map("'dsl<leader>", "329j")
-    map("'dd;<leader>", "330j")
-    map("'dda<leader>", "331j")
-    map("'dds<leader>", "332j")
-    map("'ddd<leader>", "333j")
-    map("'ddf<leader>", "334j")
-    map("'ddg<leader>", "335j")
-    map("'ddh<leader>", "336j")
-    map("'ddj<leader>", "337j")
-    map("'ddk<leader>", "338j")
-    map("'ddl<leader>", "339j")
-    map("'df;<leader>", "340j")
-    map("'dfa<leader>", "341j")
-    map("'dfs<leader>", "342j")
-    map("'dfd<leader>", "343j")
-    map("'dff<leader>", "344j")
-    map("'dfg<leader>", "345j")
-    map("'dfh<leader>", "346j")
-    map("'dfj<leader>", "347j")
-    map("'dfk<leader>", "348j")
-    map("'dfl<leader>", "349j")
-    map("'dg;<leader>", "350j")
-    map("'dga<leader>", "351j")
-    map("'dgs<leader>", "352j")
-    map("'dgd<leader>", "353j")
-    map("'dgf<leader>", "354j")
-    map("'dgg<leader>", "355j")
-    map("'dgh<leader>", "356j")
-    map("'dgj<leader>", "357j")
-    map("'dgk<leader>", "358j")
-    map("'dgl<leader>", "359j")
-    map("'dh;<leader>", "360j")
-    map("'dha<leader>", "361j")
-    map("'dhs<leader>", "362j")
-    map("'dhd<leader>", "363j")
-    map("'dhf<leader>", "364j")
-    map("'dhg<leader>", "365j")
-    map("'dhh<leader>", "366j")
-    map("'dhj<leader>", "367j")
-    map("'dhk<leader>", "368j")
-    map("'dhl<leader>", "369j")
-    map("'dj;<leader>", "370j")
-    map("'dja<leader>", "371j")
-    map("'djs<leader>", "372j")
-    map("'djd<leader>", "373j")
-    map("'djf<leader>", "374j")
-    map("'djg<leader>", "375j")
-    map("'djh<leader>", "376j")
-    map("'djj<leader>", "377j")
-    map("'djk<leader>", "378j")
-    map("'djl<leader>", "379j")
-    map("'dk;<leader>", "380j")
-    map("'dka<leader>", "381j")
-    map("'dks<leader>", "382j")
-    map("'dkd<leader>", "383j")
-    map("'dkf<leader>", "384j")
-    map("'dkg<leader>", "385j")
-    map("'dkh<leader>", "386j")
-    map("'dkj<leader>", "387j")
-    map("'dkk<leader>", "388j")
-    map("'dkl<leader>", "389j")
-    map("'dl;<leader>", "390j")
-    map("'dla<leader>", "391j")
-    map("'dls<leader>", "392j")
-    map("'dld<leader>", "393j")
-    map("'dlf<leader>", "394j")
-    map("'dlg<leader>", "395j")
-    map("'dlh<leader>", "396j")
-    map("'dlj<leader>", "397j")
-    map("'dlk<leader>", "398j")
-    map("'dll<leader>", "399j")
-    map("'f;;<leader>", "400j")
-    map("[a<leader>", "1k")
-    map("[s<leader>", "2k")
-    map("[d<leader>", "3k")
-    map("[f<leader>", "4k")
-    map("[g<leader>", "5k")
-    map("[h<leader>", "6k")
-    map("[j<leader>", "7k")
-    map("[k<leader>", "8k")
-    map("[l<leader>", "9k")
-    map("[a;<leader>", "10k")
-    map("[aa<leader>", "11k")
-    map("[as<leader>", "12k")
-    map("[ad<leader>", "13k")
-    map("[af<leader>", "14k")
-    map("[ag<leader>", "15k")
-    map("[ah<leader>", "16k")
-    map("[aj<leader>", "17k")
-    map("[ak<leader>", "18k")
-    map("[al<leader>", "19k")
-    map("[s;<leader>", "20k")
-    map("[sa<leader>", "21k")
-    map("[ss<leader>", "22k")
-    map("[sd<leader>", "23k")
-    map("[sf<leader>", "24k")
-    map("[sg<leader>", "25k")
-    map("[sh<leader>", "26k")
-    map("[sj<leader>", "27k")
-    map("[sk<leader>", "28k")
-    map("[sl<leader>", "29k")
-    map("[d;<leader>", "30k")
-    map("[da<leader>", "31k")
-    map("[ds<leader>", "32k")
-    map("[dd<leader>", "33k")
-    map("[df<leader>", "34k")
-    map("[dg<leader>", "35k")
-    map("[dh<leader>", "36k")
-    map("[dj<leader>", "37k")
-    map("[dk<leader>", "38k")
-    map("[dl<leader>", "39k")
-    map("[f;<leader>", "40k")
-    map("[fa<leader>", "41k")
-    map("[fs<leader>", "42k")
-    map("[fd<leader>", "43k")
-    map("[ff<leader>", "44k")
-    map("[fg<leader>", "45k")
-    map("[fh<leader>", "46k")
-    map("[fj<leader>", "47k")
-    map("[fk<leader>", "48k")
-    map("[fl<leader>", "49k")
-    map("[g;<leader>", "50k")
-    map("[ga<leader>", "51k")
-    map("[gs<leader>", "52k")
-    map("[gd<leader>", "53k")
-    map("[gf<leader>", "54k")
-    map("[gg<leader>", "55k")
-    map("[gh<leader>", "56k")
-    map("[gj<leader>", "57k")
-    map("[gk<leader>", "58k")
-    map("[gl<leader>", "59k")
-    map("[h;<leader>", "60k")
-    map("[ha<leader>", "61k")
-    map("[hs<leader>", "62k")
-    map("[hd<leader>", "63k")
-    map("[hf<leader>", "64k")
-    map("[hg<leader>", "65k")
-    map("[hh<leader>", "66k")
-    map("[hj<leader>", "67k")
-    map("[hk<leader>", "68k")
-    map("[hl<leader>", "69k")
-    map("[j;<leader>", "70k")
-    map("[ja<leader>", "71k")
-    map("[js<leader>", "72k")
-    map("[jd<leader>", "73k")
-    map("[jf<leader>", "74k")
-    map("[jg<leader>", "75k")
-    map("[jh<leader>", "76k")
-    map("[jj<leader>", "77k")
-    map("[jk<leader>", "78k")
-    map("[jl<leader>", "79k")
-    map("[k;<leader>", "80k")
-    map("[ka<leader>", "81k")
-    map("[ks<leader>", "82k")
-    map("[kd<leader>", "83k")
-    map("[kf<leader>", "84k")
-    map("[kg<leader>", "85k")
-    map("[kh<leader>", "86k")
-    map("[kj<leader>", "87k")
-    map("[kk<leader>", "88k")
-    map("[kl<leader>", "89k")
-    map("[l;<leader>", "90k")
-    map("[la<leader>", "91k")
-    map("[ls<leader>", "92k")
-    map("[ld<leader>", "93k")
-    map("[lf<leader>", "94k")
-    map("[lg<leader>", "95k")
-    map("[lh<leader>", "96k")
-    map("[lj<leader>", "97k")
-    map("[lk<leader>", "98k")
-    map("[ll<leader>", "99k")
-    map("[a;;<leader>", "100k")
-    map("[a;a<leader>", "101k")
-    map("[a;s<leader>", "102k")
-    map("[a;d<leader>", "103k")
-    map("[a;f<leader>", "104k")
-    map("[a;g<leader>", "105k")
-    map("[a;h<leader>", "106k")
-    map("[a;j<leader>", "107k")
-    map("[a;k<leader>", "108k")
-    map("[a;l<leader>", "109k")
-    map("[aa;<leader>", "110k")
-    map("[aaa<leader>", "111k")
-    map("[aas<leader>", "112k")
-    map("[aad<leader>", "113k")
-    map("[aaf<leader>", "114k")
-    map("[aag<leader>", "115k")
-    map("[aah<leader>", "116k")
-    map("[aaj<leader>", "117k")
-    map("[aak<leader>", "118k")
-    map("[aal<leader>", "119k")
-    map("[as;<leader>", "120k")
-    map("[asa<leader>", "121k")
-    map("[ass<leader>", "122k")
-    map("[asd<leader>", "123k")
-    map("[asf<leader>", "124k")
-    map("[asg<leader>", "125k")
-    map("[ash<leader>", "126k")
-    map("[asj<leader>", "127k")
-    map("[ask<leader>", "128k")
-    map("[asl<leader>", "129k")
-    map("[ad;<leader>", "130k")
-    map("[ada<leader>", "131k")
-    map("[ads<leader>", "132k")
-    map("[add<leader>", "133k")
-    map("[adf<leader>", "134k")
-    map("[adg<leader>", "135k")
-    map("[adh<leader>", "136k")
-    map("[adj<leader>", "137k")
-    map("[adk<leader>", "138k")
-    map("[adl<leader>", "139k")
-    map("[af;<leader>", "140k")
-    map("[afa<leader>", "141k")
-    map("[afs<leader>", "142k")
-    map("[afd<leader>", "143k")
-    map("[aff<leader>", "144k")
-    map("[afg<leader>", "145k")
-    map("[afh<leader>", "146k")
-    map("[afj<leader>", "147k")
-    map("[afk<leader>", "148k")
-    map("[afl<leader>", "149k")
-    map("[ag;<leader>", "150k")
-    map("[aga<leader>", "151k")
-    map("[ags<leader>", "152k")
-    map("[agd<leader>", "153k")
-    map("[agf<leader>", "154k")
-    map("[agg<leader>", "155k")
-    map("[agh<leader>", "156k")
-    map("[agj<leader>", "157k")
-    map("[agk<leader>", "158k")
-    map("[agl<leader>", "159k")
-    map("[ah;<leader>", "160k")
-    map("[aha<leader>", "161k")
-    map("[ahs<leader>", "162k")
-    map("[ahd<leader>", "163k")
-    map("[ahf<leader>", "164k")
-    map("[ahg<leader>", "165k")
-    map("[ahh<leader>", "166k")
-    map("[ahj<leader>", "167k")
-    map("[ahk<leader>", "168k")
-    map("[ahl<leader>", "169k")
-    map("[aj;<leader>", "170k")
-    map("[aja<leader>", "171k")
-    map("[ajs<leader>", "172k")
-    map("[ajd<leader>", "173k")
-    map("[ajf<leader>", "174k")
-    map("[ajg<leader>", "175k")
-    map("[ajh<leader>", "176k")
-    map("[ajj<leader>", "177k")
-    map("[ajk<leader>", "178k")
-    map("[ajl<leader>", "179k")
-    map("[ak;<leader>", "180k")
-    map("[aka<leader>", "181k")
-    map("[aks<leader>", "182k")
-    map("[akd<leader>", "183k")
-    map("[akf<leader>", "184k")
-    map("[akg<leader>", "185k")
-    map("[akh<leader>", "186k")
-    map("[akj<leader>", "187k")
-    map("[akk<leader>", "188k")
-    map("[akl<leader>", "189k")
-    map("[al;<leader>", "190k")
-    map("[ala<leader>", "191k")
-    map("[als<leader>", "192k")
-    map("[ald<leader>", "193k")
-    map("[alf<leader>", "194k")
-    map("[alg<leader>", "195k")
-    map("[alh<leader>", "196k")
-    map("[alj<leader>", "197k")
-    map("[alk<leader>", "198k")
-    map("[all<leader>", "199k")
-    map("[s;;<leader>", "200k")
-    map("[s;a<leader>", "201k")
-    map("[s;s<leader>", "202k")
-    map("[s;d<leader>", "203k")
-    map("[s;f<leader>", "204k")
-    map("[s;g<leader>", "205k")
-    map("[s;h<leader>", "206k")
-    map("[s;j<leader>", "207k")
-    map("[s;k<leader>", "208k")
-    map("[s;l<leader>", "209k")
-    map("[sa;<leader>", "210k")
-    map("[saa<leader>", "211k")
-    map("[sas<leader>", "212k")
-    map("[sad<leader>", "213k")
-    map("[saf<leader>", "214k")
-    map("[sag<leader>", "215k")
-    map("[sah<leader>", "216k")
-    map("[saj<leader>", "217k")
-    map("[sak<leader>", "218k")
-    map("[sal<leader>", "219k")
-    map("[ss;<leader>", "220k")
-    map("[ssa<leader>", "221k")
-    map("[sss<leader>", "222k")
-    map("[ssd<leader>", "223k")
-    map("[ssf<leader>", "224k")
-    map("[ssg<leader>", "225k")
-    map("[ssh<leader>", "226k")
-    map("[ssj<leader>", "227k")
-    map("[ssk<leader>", "228k")
-    map("[ssl<leader>", "229k")
-    map("[sd;<leader>", "230k")
-    map("[sda<leader>", "231k")
-    map("[sds<leader>", "232k")
-    map("[sdd<leader>", "233k")
-    map("[sdf<leader>", "234k")
-    map("[sdg<leader>", "235k")
-    map("[sdh<leader>", "236k")
-    map("[sdj<leader>", "237k")
-    map("[sdk<leader>", "238k")
-    map("[sdl<leader>", "239k")
-    map("[sf;<leader>", "240k")
-    map("[sfa<leader>", "241k")
-    map("[sfs<leader>", "242k")
-    map("[sfd<leader>", "243k")
-    map("[sff<leader>", "244k")
-    map("[sfg<leader>", "245k")
-    map("[sfh<leader>", "246k")
-    map("[sfj<leader>", "247k")
-    map("[sfk<leader>", "248k")
-    map("[sfl<leader>", "249k")
-    map("[sg;<leader>", "250k")
-    map("[sga<leader>", "251k")
-    map("[sgs<leader>", "252k")
-    map("[sgd<leader>", "253k")
-    map("[sgf<leader>", "254k")
-    map("[sgg<leader>", "255k")
-    map("[sgh<leader>", "256k")
-    map("[sgj<leader>", "257k")
-    map("[sgk<leader>", "258k")
-    map("[sgl<leader>", "259k")
-    map("[sh;<leader>", "260k")
-    map("[sha<leader>", "261k")
-    map("[shs<leader>", "262k")
-    map("[shd<leader>", "263k")
-    map("[shf<leader>", "264k")
-    map("[shg<leader>", "265k")
-    map("[shh<leader>", "266k")
-    map("[shj<leader>", "267k")
-    map("[shk<leader>", "268k")
-    map("[shl<leader>", "269k")
-    map("[sj;<leader>", "270k")
-    map("[sja<leader>", "271k")
-    map("[sjs<leader>", "272k")
-    map("[sjd<leader>", "273k")
-    map("[sjf<leader>", "274k")
-    map("[sjg<leader>", "275k")
-    map("[sjh<leader>", "276k")
-    map("[sjj<leader>", "277k")
-    map("[sjk<leader>", "278k")
-    map("[sjl<leader>", "279k")
-    map("[sk;<leader>", "280k")
-    map("[ska<leader>", "281k")
-    map("[sks<leader>", "282k")
-    map("[skd<leader>", "283k")
-    map("[skf<leader>", "284k")
-    map("[skg<leader>", "285k")
-    map("[skh<leader>", "286k")
-    map("[skj<leader>", "287k")
-    map("[skk<leader>", "288k")
-    map("[skl<leader>", "289k")
-    map("[sl;<leader>", "290k")
-    map("[sla<leader>", "291k")
-    map("[sls<leader>", "292k")
-    map("[sld<leader>", "293k")
-    map("[slf<leader>", "294k")
-    map("[slg<leader>", "295k")
-    map("[slh<leader>", "296k")
-    map("[slj<leader>", "297k")
-    map("[slk<leader>", "298k")
-    map("[sll<leader>", "299k")
-    map("[d;;<leader>", "300k")
-    map("[d;a<leader>", "301k")
-    map("[d;s<leader>", "302k")
-    map("[d;d<leader>", "303k")
-    map("[d;f<leader>", "304k")
-    map("[d;g<leader>", "305k")
-    map("[d;h<leader>", "306k")
-    map("[d;j<leader>", "307k")
-    map("[d;k<leader>", "308k")
-    map("[d;l<leader>", "309k")
-    map("[da;<leader>", "310k")
-    map("[daa<leader>", "311k")
-    map("[das<leader>", "312k")
-    map("[dad<leader>", "313k")
-    map("[daf<leader>", "314k")
-    map("[dag<leader>", "315k")
-    map("[dah<leader>", "316k")
-    map("[daj<leader>", "317k")
-    map("[dak<leader>", "318k")
-    map("[dal<leader>", "319k")
-    map("[ds;<leader>", "320k")
-    map("[dsa<leader>", "321k")
-    map("[dss<leader>", "322k")
-    map("[dsd<leader>", "323k")
-    map("[dsf<leader>", "324k")
-    map("[dsg<leader>", "325k")
-    map("[dsh<leader>", "326k")
-    map("[dsj<leader>", "327k")
-    map("[dsk<leader>", "328k")
-    map("[dsl<leader>", "329k")
-    map("[dd;<leader>", "330k")
-    map("[dda<leader>", "331k")
-    map("[dds<leader>", "332k")
-    map("[ddd<leader>", "333k")
-    map("[ddf<leader>", "334k")
-    map("[ddg<leader>", "335k")
-    map("[ddh<leader>", "336k")
-    map("[ddj<leader>", "337k")
-    map("[ddk<leader>", "338k")
-    map("[ddl<leader>", "339k")
-    map("[df;<leader>", "340k")
-    map("[dfa<leader>", "341k")
-    map("[dfs<leader>", "342k")
-    map("[dfd<leader>", "343k")
-    map("[dff<leader>", "344k")
-    map("[dfg<leader>", "345k")
-    map("[dfh<leader>", "346k")
-    map("[dfj<leader>", "347k")
-    map("[dfk<leader>", "348k")
-    map("[dfl<leader>", "349k")
-    map("[dg;<leader>", "350k")
-    map("[dga<leader>", "351k")
-    map("[dgs<leader>", "352k")
-    map("[dgd<leader>", "353k")
-    map("[dgf<leader>", "354k")
-    map("[dgg<leader>", "355k")
-    map("[dgh<leader>", "356k")
-    map("[dgj<leader>", "357k")
-    map("[dgk<leader>", "358k")
-    map("[dgl<leader>", "359k")
-    map("[dh;<leader>", "360k")
-    map("[dha<leader>", "361k")
-    map("[dhs<leader>", "362k")
-    map("[dhd<leader>", "363k")
-    map("[dhf<leader>", "364k")
-    map("[dhg<leader>", "365k")
-    map("[dhh<leader>", "366k")
-    map("[dhj<leader>", "367k")
-    map("[dhk<leader>", "368k")
-    map("[dhl<leader>", "369k")
-    map("[dj;<leader>", "370k")
-    map("[dja<leader>", "371k")
-    map("[djs<leader>", "372k")
-    map("[djd<leader>", "373k")
-    map("[djf<leader>", "374k")
-    map("[djg<leader>", "375k")
-    map("[djh<leader>", "376k")
-    map("[djj<leader>", "377k")
-    map("[djk<leader>", "378k")
-    map("[djl<leader>", "379k")
-    map("[dk;<leader>", "380k")
-    map("[dka<leader>", "381k")
-    map("[dks<leader>", "382k")
-    map("[dkd<leader>", "383k")
-    map("[dkf<leader>", "384k")
-    map("[dkg<leader>", "385k")
-    map("[dkh<leader>", "386k")
-    map("[dkj<leader>", "387k")
-    map("[dkk<leader>", "388k")
-    map("[dkl<leader>", "389k")
-    map("[dl;<leader>", "390k")
-    map("[dla<leader>", "391k")
-    map("[dls<leader>", "392k")
-    map("[dld<leader>", "393k")
-    map("[dlf<leader>", "394k")
-    map("[dlg<leader>", "395k")
-    map("[dlh<leader>", "396k")
-    map("[dlj<leader>", "397k")
-    map("[dlk<leader>", "398k")
-    map("[dll<leader>", "399k")
-    map("[f;;<leader>", "400k")
+    for _, v in ipairs(Cursors) do
+      vim.keymap.set("n", v[1], v[2], { noremap = true, silent = true })
+    end
   end
 })

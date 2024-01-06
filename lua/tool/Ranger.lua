@@ -2,6 +2,7 @@ local prev_win = -1
 local winnr = -1
 local bufnr = -1
 local tempname = ''
+local workpath = ''
 
 local function OpenFile(open)
   if open == 'vsplit' then
@@ -18,6 +19,7 @@ end
 
 local function EndOpt()
   vim.fn.delete(tempname)
+  vim.cmd('silent! lcd ' .. workpath)
 end
 
 local function TabName(name)
@@ -37,6 +39,8 @@ end
 
 local function Ranger(open)
   prev_win = vim.api.nvim_get_current_win()
+  workpath = vim.fn.getcwd()
+  vim.cmd('silent! lcd %:p:h')
   local Win = require('tool.util.FloatWin')
   Win:Create({
     width = 0.8,

@@ -15,42 +15,43 @@ local function RunWin()
   })
 end
 
-local function Run()
+local function Run(opt)
   vim.cmd('w')
-  local filename = vim.fn.expand('%')
-  local runfile = vim.fn.expand('%<')
-  local filetype = vim.bo.filetype
-  if filetype == 'c' then
+  if opt ~= nil then
     RunWin()
-    if (vim.fn.filereadable('Makefile') == 1) then
-      vim.cmd('term make && ./Main')
-    else
-      vim.cmd(string.format('term gcc "%s" -o "%s" && ./"%s" && rm -f "%s"', filename, runfile, runfile, runfile))
+    vim.cmd('term ' .. opt)
+  else
+    local dir = vim.fn.getcwd()
+    if dir ~= vim.fn.expand('%:p:h') then
+      vim.cmd('Chdir')
     end
-  elseif filetype == 'cpp' then
-    RunWin()
-    if (vim.fn.filereadable('Makefile') == 1) then
-      vim.cmd('term make && ./Main')
-    else
+    local filename = vim.fn.expand('%')
+    local runfile = vim.fn.expand('%<')
+    local filetype = vim.bo.filetype
+    if filetype == 'c' then
+      RunWin()
+      vim.cmd(string.format('term gcc "%s" -o "%s" && ./"%s" && rm -f "%s"', filename, runfile, runfile, runfile))
+    elseif filetype == 'cpp' then
       vim.cmd(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && ./"%s" && rm -rf "%s"',
         filename, runfile, runfile, runfile))
+    elseif filetype == 'python' then
+      RunWin()
+      vim.cmd(string.format('term python3 "%s"', filename))
+    elseif filetype == 'lua' then
+      RunWin()
+      vim.cmd(string.format('term lua "%s"', filename))
+    elseif filetype == 'markdown' then
+      vim.cmd('MarkdownPreview')
+    elseif filetype == 'sh' then
+      RunWin()
+      vim.cmd(string.format('term bash "%s"', filename))
+    elseif filetype == 'html' then
+      vim.cmd('tabe')
+      vim.cmd('term live-server --browser=' .. vim.g.browser)
+      vim.cmd('tabclose')
+      feedkeys('<ESC>', 'n')
     end
-  elseif filetype == 'python' then
-    RunWin()
-    vim.cmd(string.format('term python3 "%s"', filename))
-  elseif filetype == 'lua' then
-    RunWin()
-    vim.cmd(string.format('term lua "%s"', filename))
-  elseif filetype == 'markdown' then
-    vim.cmd('MarkdownPreview')
-  elseif filetype == 'sh' then
-    RunWin()
-    vim.cmd(string.format('term bash "%s"', filename))
-  elseif filetype == 'html' then
-    vim.cmd("tabe")
-    vim.cmd("term live-server --browser=" .. vim.g.browser)
-    vim.cmd("tabclose")
-    feedkeys('<ESC>', 'n')
+    vim.cmd('silent! lcd ' .. dir)
   end
 end
 
@@ -58,5 +59,8 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'c', 'cpp', 'python', 'lua', 'markdown', 'sh', 'html' },
   callback = function()
     vim.keymap.set('n', '<F5>', Run, {})
+    vim.api.nvim_create_user_command('Run', function(opt)
+      Run(opt.args)
+    end, { nargs = 1 })
   end
 })

@@ -1,14 +1,14 @@
 local switch = {
   text = {
-    "*.md",
-    "*.txt"
+    '*.md',
+    '*.txt'
   },
   code = {
-    "*",
+    '*',
   },
-  en = "fcitx5-remote -c",
-  zh = "fcitx5-remote -o",
-  check = "fcitx5-remote",
+  en = 'fcitx5-remote -c',
+  zh = 'fcitx5-remote -o',
+  check = 'fcitx5-remote',
 }
 
 local input_toggle = 1
@@ -30,18 +30,18 @@ local function Zh()
 end
 
 local md = {
-  "language",
-  "fenced_code_block_delimiter",
-  "link_destination",
-  "code_fence_content",
-  "fenced_code_block",
-  "latex_block",
+  'language',
+  'fenced_code_block_delimiter',
+  'link_destination',
+  'code_fence_content',
+  'fenced_code_block',
+  'latex_block',
 }
 
 local md_code = {
-  "chunk",            --lua
-  "translation_unit", --c/cpp
-  "module",           --python
+  'chunk',            --lua
+  'translation_unit', --c/cpp
+  'module',           --python
 }
 
 local function is_not_in_code_block() --markdown
@@ -73,12 +73,12 @@ end
 
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewfile' }, {
   callback = function()
-    vim.api.nvim_create_autocmd("InsertLeave", {
+    vim.api.nvim_create_autocmd('InsertLeave', {
       callback = function()
         En()
       end
     })
-    vim.api.nvim_create_autocmd("InsertEnter", {
+    vim.api.nvim_create_autocmd('InsertEnter', {
       pattern = switch.text,
       callback = function()
         if filetype_checke() then
@@ -86,7 +86,7 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewfile' }, {
         end
       end
     })
-    vim.api.nvim_create_autocmd("InsertEnter", {
+    vim.api.nvim_create_autocmd('InsertEnter', {
       pattern = switch.code,
       callback = function()
         local current_pos = vim.fn.getcurpos()
@@ -100,7 +100,7 @@ vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewfile' }, {
         end
       end
     })
-    vim.api.nvim_create_autocmd("TextChangedI", {
+    vim.api.nvim_create_autocmd('TextChangedI', {
       pattern = switch.code,
       callback = function()
         if (vim.bo.filetype == 'python' or vim.bo.filetype == 'sh') and vim.fn.line('.') == 1 then
