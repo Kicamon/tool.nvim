@@ -9,7 +9,6 @@ local tools = {
   'TabToSpace',
   'Wiki',
   'Wildfire',
-  'Chdir',
 }
 
 for _, v in ipairs(tools) do

@@ -17,7 +17,6 @@ end
 
 local function Run()
   vim.cmd('w')
-  vim.cmd('Chdir')
   local filename = vim.fn.expand('%')
   local runfile = vim.fn.expand('%<')
   local filetype = vim.bo.filetype
