@@ -10,7 +10,7 @@ local function Create_Open()
       local line = vim.api.nvim_get_current_line()
       local pattern = "[^.]+([^)]+)"
       local path = string.match(line, pattern)
-      vim.cmd("tabe " .. path)
+      vim.cmd("edit " .. path)
     elseif node:type() == "inline" then
       local ln, tl, tr = vim.fn.line('.'), vim.fn.getpos('v')[3], vim.fn.getpos('.')[3]
       local line = vim.fn.getline(ln)
@@ -40,7 +40,7 @@ local function OpenWiki()
     vim.cmd("silent !touch " .. path .. "index.md")
   end
   vim.cmd('silent! lcd ' .. path)
-  vim.cmd('e ' .. path .. "index.md")
+  vim.cmd('edit ' .. path .. "index.md")
 end
 
 vim.keymap.set('n', '<leader>ww', OpenWiki, {})
