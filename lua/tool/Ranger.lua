@@ -37,10 +37,14 @@ local function CloseFloatWin()
   vim.api.nvim_set_current_win(prev_win)
 end
 
-local function Ranger(open)
+local function Ranger(open, opt)
   prev_win = vim.api.nvim_get_current_win()
   workpath = vim.fn.getcwd()
-  vim.cmd('silent! lcd %:p:h')
+  if opt then
+    vim.cmd('silent! lcd ' .. vim.lsp.buf.list_workspace_folders()[1])
+  else
+    vim.cmd('silent! lcd %:p:h')
+  end
   local Win = require('tool.util.FloatWin')
   Win:Create({
     width = 0.8,
@@ -62,5 +66,6 @@ local function Ranger(open)
   })
 end
 
-vim.keymap.set('n', '<leader>ra', function() Ranger('edit') end, {})
-vim.keymap.set('n', '<leader>rl', function() Ranger('vsplit') end, {})
+vim.keymap.set('n', '<leader>ra', function() Ranger('edit', false) end, {})
+vim.keymap.set('n', '<leader>rl', function() Ranger('vsplit', false) end, {})
+vim.keymap.set('n', '<leader>rw', function() Ranger('edit', true) end, {})

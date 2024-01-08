@@ -32,6 +32,7 @@ local function Run(opt)
       RunWin()
       vim.cmd(string.format('term gcc "%s" -o "%s" && ./"%s" && rm -f "%s"', filename, runfile, runfile, runfile))
     elseif filetype == 'cpp' then
+      RunWin()
       vim.cmd(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && ./"%s" && rm -rf "%s"',
         filename, runfile, runfile, runfile))
     elseif filetype == 'python' then
