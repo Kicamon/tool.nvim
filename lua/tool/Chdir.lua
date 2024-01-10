@@ -2,8 +2,8 @@ local function Chdir()
   local dir = vim.fn.getcwd()
   vim.cmd('silent! lcd %:p:h')
   vim.notify(
-    'From ' .. dir .. '\n' ..
-    vim.fn.expand('%:p:h')
+    'From: ' .. dir .. '\n' ..
+    'To: ' .. vim.fn.expand('%:p:h')
   )
 end
 
