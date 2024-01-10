@@ -2,6 +2,7 @@ local function Chdir()
   local dir = vim.fn.getcwd()
   vim.cmd('silent! lcd %:p:h')
   vim.notify(
+    'Change directory' .. '\n' ..
     'From: ' .. dir .. '\n' ..
     'To: ' .. vim.fn.expand('%:p:h')
   )
