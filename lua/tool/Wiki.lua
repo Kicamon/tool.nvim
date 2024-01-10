@@ -43,4 +43,8 @@ local function OpenWiki()
   vim.cmd('edit ' .. path .. 'index.md')
 end
 
-vim.keymap.set('n', '<leader>ww', OpenWiki, {})
+vim.api.nvim_create_autocmd('VimEnter', {
+  callback = function()
+    vim.keymap.set('n', '<leader>ww', OpenWiki, {})
+  end
+})

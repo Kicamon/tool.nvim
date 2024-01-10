@@ -1,6 +1,10 @@
 local function Chdir()
+  local dir = vim.fn.getcwd()
   vim.cmd('silent! lcd %:p:h')
-  vim.notify(vim.fn.expand('%:p:h'))
+  vim.notify(
+    'From ' .. dir .. '\n' ..
+    vim.fn.expand('%:p:h')
+  )
 end
 
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {

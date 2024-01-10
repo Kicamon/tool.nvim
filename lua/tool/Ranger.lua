@@ -66,6 +66,10 @@ local function Ranger(open, opt)
   })
 end
 
-vim.keymap.set('n', '<leader>ra', function() Ranger('edit', false) end, {})
-vim.keymap.set('n', '<leader>rl', function() Ranger('vsplit', false) end, {})
-vim.keymap.set('n', '<leader>rw', function() Ranger('edit', true) end, {})
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  callback = function()
+    vim.keymap.set('n', '<leader>ra', function() Ranger('edit', false) end, {})
+    vim.keymap.set('n', '<leader>rl', function() Ranger('vsplit', false) end, {})
+    vim.keymap.set('n', '<leader>rw', function() Ranger('edit', true) end, {})
+  end
+})
