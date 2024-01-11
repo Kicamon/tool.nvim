@@ -2,7 +2,7 @@ local feedkeys = function(keys, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), mode, true)
 end
 
-local function RunWin()
+local function RunWin(opt)
   local Win = require("tool.util.FloatWin")
   Win:Create({
     anchor = 'NE',
@@ -13,39 +13,35 @@ local function RunWin()
     buflisted = true,
     pos = 'tr',
   })
+  vim.cmd(opt)
+  vim.api.nvim_command('file Code Running')
 end
 
 local function Run(opt)
   vim.cmd('w')
   if opt ~= nil then
-    RunWin()
-    vim.cmd('term ' .. opt)
+    RunWin('term ' .. opt)
   else
     local dir = vim.fn.getcwd()
     if dir ~= vim.fn.expand('%:p:h') then
       vim.cmd('Chdir')
     end
+    local filetype = vim.bo.filetype
     local filename = vim.fn.expand('%')
     local runfile = vim.fn.expand('%<')
-    local filetype = vim.bo.filetype
     if filetype == 'c' then
-      RunWin()
-      vim.cmd(string.format('term gcc "%s" -o "%s" && ./"%s" && rm -f "%s"', filename, runfile, runfile, runfile))
+      RunWin(string.format('term gcc "%" -o "%<" && ./"%<" && rm -f "%<"', filename, runfile, runfile, runfile))
     elseif filetype == 'cpp' then
-      RunWin()
-      vim.cmd(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && ./"%s" && rm -rf "%s"',
+      RunWin(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && ./"%s" && rm -rf "%s"',
         filename, runfile, runfile, runfile))
     elseif filetype == 'python' then
-      RunWin()
-      vim.cmd(string.format('term python3 "%s"', filename))
+      RunWin('term python3 ' .. filename)
     elseif filetype == 'lua' then
-      RunWin()
-      vim.cmd(string.format('term lua "%s"', filename))
+      RunWin('term lua ' .. filename)
+    elseif filetype == 'sh' then
+      RunWin('term bash ' .. filename)
     elseif filetype == 'markdown' then
       vim.cmd('MarkdownPreview')
-    elseif filetype == 'sh' then
-      RunWin()
-      vim.cmd(string.format('term bash "%s"', filename))
     elseif filetype == 'html' then
       vim.cmd('tabe')
       vim.cmd('term live-server --browser=' .. vim.g.browser)

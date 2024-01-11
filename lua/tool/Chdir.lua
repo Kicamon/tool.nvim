@@ -1,11 +1,9 @@
 local function Chdir()
   local dir = vim.fn.getcwd()
   vim.cmd('silent! lcd %:p:h')
-  vim.notify(
-    'Change directory' .. '\n' ..
-    'From: ' .. dir .. '\n' ..
-    'To: ' .. vim.fn.expand('%:p:h')
-  )
+  vim.notify('\nFrom: ' .. dir .. '\n' ..
+    'To: ' .. vim.fn.expand('%:p:h'),
+    1000, { title = 'Change directory', icon = '' })
 end
 
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
