@@ -8,8 +8,9 @@ local function Create_Open()
   if node then
     if node:type() == 'link_text' or node:type() == 'link_destination' then
       local line = vim.api.nvim_get_current_line()
-      local pattern = '[^.]+([^)]+)'
+      local pattern = '[^/]+(.-)%)'
       local path = string.match(line, pattern)
+      path = vim.fn.expand('%:p:~:h') .. path
       vim.cmd('edit ' .. path)
     elseif node:type() == 'inline' then
       local ln, tl, tr = vim.fn.line('.'), vim.fn.getpos('v')[3], vim.fn.getpos('.')[3]
@@ -34,13 +35,11 @@ local function OpenWiki()
       vim.keymap.set({ 'n', 'v' }, '<CR>', Create_Open, { buffer = true })
     end
   })
-  local path = vim.g.wiki_path
-  if vim.fn.filereadable(vim.fn.expand(path .. 'index.md')) == 0 then
-    vim.cmd('silent !mkdir -p ' .. path)
-    vim.cmd('silent !touch ' .. path .. 'index.md')
+  if vim.fn.filereadable(vim.fn.expand(vim.g.wiki_path .. 'index.md')) == 0 then
+    vim.cmd('silent !mkdir -p ' .. vim.g.wiki_path)
+    vim.cmd('silent !touch ' .. vim.g.wiki_path .. 'index.md')
   end
-  vim.cmd('silent! lcd ' .. path)
-  vim.cmd('edit ' .. path .. 'index.md')
+  vim.cmd('edit ' .. vim.g.wiki_path .. 'index.md')
 end
 
 vim.api.nvim_create_autocmd('VimEnter', {
