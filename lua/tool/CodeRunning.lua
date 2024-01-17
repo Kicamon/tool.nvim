@@ -8,7 +8,7 @@ local function RunWin(opt)
     anchor = 'NE',
     width = 0.25,
     height = 0.86,
-    title = ' Code Running '
+    title = '  Code Running '
   }, {
     buflisted = true,
     pos = 'tr',

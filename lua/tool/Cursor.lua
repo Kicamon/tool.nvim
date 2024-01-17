@@ -804,7 +804,7 @@ local Cursors = {
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   callback = function()
     for _, v in ipairs(Cursors) do
-      vim.keymap.set("n", v[1], v[2], { noremap = true, silent = true })
+      vim.keymap.set({ 'n', 'v' }, v[1], v[2], { noremap = true, silent = true })
     end
   end
 })

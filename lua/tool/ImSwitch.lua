@@ -1,3 +1,5 @@
+local input_toggle = 1
+
 local switch = {
   text = {
     '*.md',
@@ -10,8 +12,6 @@ local switch = {
   zh = 'fcitx5-remote -o',
   check = 'fcitx5-remote',
 }
-
-local input_toggle = 1
 
 local function En()
   local input_status = tonumber(io.popen(switch.check):read("*all"))
