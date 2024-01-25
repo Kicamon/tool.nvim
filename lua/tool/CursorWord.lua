@@ -33,7 +33,7 @@ local function matchadd()
     return
   end
   cursorword = vim.fn.escape(cursorword, [[~"\.^$[]*]])
-  vim.w.cursorword_match_id = vim.fn.matchadd("CursorWord", [[\<]] .. cursorword .. [[\>]], -1)
+  vim.w.cursorword_match_id = vim.fn.matchadd('CursorWord', [[\<]] .. cursorword .. [[\>]], -1)
 end
 
 vim.api.nvim_create_autocmd('FileType', {
