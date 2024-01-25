@@ -16,8 +16,8 @@ end
 local function matchadd()
   local coln = vim.fn.col('.')
   local line = vim.fn.getline('.')
-  local left = matchstr(line:sub(1, coln + 1), [[\k*$]])
-  local right = matchstr(line:sub(coln + 1), [[^\k*]]):sub(2)
+  local left = matchstr(line:sub(1, coln), [[\k*$]])
+  local right = matchstr(line:sub(coln), [[^\k*]]):sub(2)
 
   local cursorword = left .. right
 
@@ -27,18 +27,20 @@ local function matchadd()
 
   vim.w.cursorword = cursorword
 
-  matchadd()
+  matchdelete()
 
-  if #cursorword < 3 or #cursorword > 50 or cursorword:find('[\192-\255]+') then
-    vim.w.cursorword_match_id = vim.fn.matchadd("CursorWord", [[\<]] .. cursorword .. [[\>]], -1)
+  if #cursorword < 1 or #cursorword > 50 or cursorword:find('[\192-\255]+') then
+    return
   end
+  cursorword = vim.fn.escape(cursorword, [[~"\.^$[]*]])
+  vim.w.cursorword_match_id = vim.fn.matchadd("CursorWord", [[\<]] .. cursorword .. [[\>]], -1)
 end
 
-local group_id = vim.api.nvim_create_augroup('CursorWord', { clear = true })
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = vim.g.fts,
+  pattern = { 'c', 'cpp', 'python', 'lua', 'markdown', 'sh', 'html' },
   callback = function()
-    vim.api.nvim_create_autocmd({ 'CursorHolde', 'CursorHoldI' }, {
+    local group_id = vim.api.nvim_create_augroup('CursorWord', { clear = true })
+    vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
       group = group_id,
       callback = matchadd,
     })

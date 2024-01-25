@@ -15,6 +15,9 @@ local function Create_Open()
     elseif node:type() == 'inline' then
       local ln, tl, tr = vim.fn.line('.'), vim.fn.getpos('v')[3], vim.fn.getpos('.')[3]
       local line = vim.fn.getline(ln)
+      if line:sub(tr):find('[\227-\233\128-\191]') == 1 then
+        tr = tr + 2
+      end
       local file_name = string.sub(line, tl, tr)
       local file_link = './' .. string.gsub(file_name, ' ', '_') .. '.md'
       local line_front = tl == 1 and '' or string.sub(line, 1, tl - 1)

@@ -35,6 +35,10 @@ local function getchar()
   return { ok, char }
 end
 
+local function check_zh(lnum, cnum)
+  return (vim.fn.getline(lnum):sub(cnum):find('[\227-\233\128-\191]') == 1)
+end
+
 local function Add_Surround()
   local Char = getchar()
   if not Char[1] then
@@ -45,6 +49,9 @@ local function Add_Surround()
   local sl, sr, el, er = getsurround.Visual()
   if vim.fn.mode() == 'V' then
     sr, er = vim.fn.indent(sl) + 1, string.len(vim.fn.getline(el))
+  end
+  if check_zh(el, er) then
+    er = er + 2
   end
   if sl == el then
     local line = vim.fn.getline(sl)
