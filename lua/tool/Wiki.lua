@@ -13,8 +13,8 @@ local function Create_Open()
       path = vim.fn.expand('%:p:~:h') .. path
       vim.cmd('edit ' .. path)
     elseif node:type() == 'inline' then
-      local ln, tl, tr = vim.fn.line('.'), vim.fn.getpos('v')[3], vim.fn.getpos('.')[3]
-      local line = vim.fn.getline(ln)
+      local tl, tr = vim.fn.getpos('v')[3], vim.fn.getpos('.')[3]
+      local line = vim.api.nvim_get_current_line()
       if line:sub(tr):find('[\227-\233\128-\191]') == 1 then
         tr = tr + 2
       end
@@ -23,7 +23,7 @@ local function Create_Open()
       local line_front = tl == 1 and '' or string.sub(line, 1, tl - 1)
       local line_end = tr == #line and '' or string.sub(line, tr + 1)
       local line_mid = string.format('[%s](%s)', file_name, file_link)
-      vim.fn.setline(ln, line_front .. line_mid .. line_end)
+      vim.api.nvim_set_current_line(line_front .. line_mid .. line_end)
       feedkeys('<ESC>', 'n')
     end
   else

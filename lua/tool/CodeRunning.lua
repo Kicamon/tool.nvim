@@ -19,17 +19,13 @@ end
 
 local function Run()
   vim.cmd('w')
-  local dir = vim.fn.getcwd()
-  if dir ~= vim.fn.expand('%:p:h') then
-    vim.cmd('silent! lcd ' .. vim.fn.expand('%:p:h'))
-  end
   local filetype = vim.bo.filetype
   local filename = vim.fn.expand('%')
   local runfile = vim.fn.expand('%<')
   if filetype == 'c' then
-    RunWin(string.format('term gcc "%" -o "%<" && ./"%<" && rm -f "%<"', filename, runfile, runfile, runfile))
+    RunWin(string.format('term gcc "%" -o "%<" && "%<" && rm -f "%<"', filename, runfile, runfile, runfile))
   elseif filetype == 'cpp' then
-    RunWin(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && ./"%s" && rm -rf "%s"',
+    RunWin(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && "%s" && rm -rf "%s"',
       filename, runfile, runfile, runfile))
   elseif filetype == 'python' then
     RunWin('term python3 ' .. filename)
@@ -40,12 +36,13 @@ local function Run()
   elseif filetype == 'markdown' then
     vim.cmd('MarkdownPreview')
   elseif filetype == 'html' then
-    vim.cmd('tabe')
-    vim.cmd('term live-server --browser=' .. vim.g.browser)
-    vim.cmd('tabclose')
+    vim.cmd([[
+      tabe
+      execute 'term live-server --browser=' . g:browser
+      tabclose
+    ]])
     feedkeys('<ESC>', 'n')
   end
-  vim.cmd('silent! lcd ' .. dir)
 end
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
