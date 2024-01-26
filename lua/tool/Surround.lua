@@ -1,5 +1,3 @@
-local getsurround = require('tool.util.GetSurround')
-
 local function SurroundChars(line, char)
   if char == "'" or char == '"' then
     line[1] = char .. line[1]
@@ -40,6 +38,7 @@ local function check_zh(lnum, cnum)
 end
 
 local function Add_Surround()
+  local getsurround = require('tool.util.GetSurround')
   local Char = getchar()
   if not Char[1] then
     feedkeys('<ESC>', 'n')
@@ -72,6 +71,7 @@ local function Add_Surround()
 end
 
 local function Change_Surround()
+  local getsurround = require('tool.util.GetSurround')
   local Char = getchar()
   if not Char[1] then
     return

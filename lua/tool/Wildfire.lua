@@ -1,5 +1,3 @@
-local getsurround = require('tool.util.GetSurround')
-
 local function changemode()
   if vim.fn.mode() == 'v' then
     vim.cmd('normal! v')
@@ -19,6 +17,7 @@ local function checkpos(pos)
 end
 
 local function Wildfire()
+  local getsurround = require('tool.util.GetSurround')
   local pos = getsurround.GetSurround()
   if not pos or #pos == 0 then
     changemode()

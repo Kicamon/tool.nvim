@@ -1,6 +1,6 @@
 local Cursors = {
-  { "<leader>",     "1j" },
-  { "<leader>",     "2j" },
+  { "'a<leader>",   "1j" },
+  { "'s<leader>",   "2j" },
   { "'d<leader>",   "3j" },
   { "'f<leader>",   "4j" },
   { "'g<leader>",   "5j" },
