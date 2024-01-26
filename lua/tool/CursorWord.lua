@@ -16,8 +16,8 @@ end
 local function matchadd()
   local coln = vim.api.nvim_win_get_cursor(0)[2]
   local line = vim.api.nvim_get_current_line()
-  local left = matchstr(line:sub(1, coln), [[\k*$]])
-  local right = matchstr(line:sub(coln), [[^\k*]]):sub(2)
+  local left = matchstr(line:sub(1, coln + 1), [[\k*$]])
+  local right = matchstr(line:sub(coln + 1), [[^\k*]]):sub(2)
 
   local cursorword = left .. right
 
