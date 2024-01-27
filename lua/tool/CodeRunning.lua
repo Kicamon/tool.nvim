@@ -30,7 +30,7 @@ local function Run()
   elseif filetype == 'python' then
     RunWin('term python3 ' .. filename)
   elseif filetype == 'lua' then
-    RunWin('term lua ' .. filename)
+    RunWin('term luajit ' .. filename)
   elseif filetype == 'sh' then
     RunWin('term bash ' .. filename)
   elseif filetype == 'markdown' then
