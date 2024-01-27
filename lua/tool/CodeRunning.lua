@@ -23,7 +23,7 @@ local function Run()
   local filename = vim.fn.expand('%')
   local runfile = vim.fn.expand('%<')
   if filetype == 'c' then
-    RunWin(string.format('term gcc "%" -o "%<" && "%<" && rm -f "%<"', filename, runfile, runfile, runfile))
+    RunWin(string.format('term gcc "%s" -o "%s" && "%s" && rm -f "%s"', filename, runfile, runfile, runfile))
   elseif filetype == 'cpp' then
     RunWin(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && "%s" && rm -rf "%s"',
       filename, runfile, runfile, runfile))
