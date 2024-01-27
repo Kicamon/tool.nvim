@@ -22,6 +22,10 @@ local function Run()
   local filetype = vim.bo.filetype
   local filename = vim.fn.expand('%')
   local runfile = vim.fn.expand('%<')
+  local runfile_dir = vim.fn.expand('%:p:h')
+  if vim.fn.getcwd() == runfile_dir then
+    runfile = runfile_dir .. '/' .. runfile
+  end
   if filetype == 'c' then
     RunWin(string.format('term gcc "%s" -o "%s" && "%s" && rm -f "%s"', filename, runfile, runfile, runfile))
   elseif filetype == 'cpp' then
