@@ -44,7 +44,7 @@ vim.api.nvim_create_autocmd('FileType', {
       group = group_id,
       callback = matchadd,
     })
-    vim.api.nvim_create_autocmd('WinLeave', {
+    vim.api.nvim_create_autocmd({ 'WinLeave', 'InsertEnter' }, {
       group = group_id,
       callback = function()
         matchdelete(true)
