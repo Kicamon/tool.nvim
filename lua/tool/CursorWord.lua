@@ -40,7 +40,7 @@ vim.api.nvim_create_autocmd('FileType', {
   pattern = vim.g.fts,
   callback = function()
     local group_id = vim.api.nvim_create_augroup('CursorWord', { clear = true })
-    vim.api.nvim_create_autocmd({ 'CursorMoved', 'CursorMovedI' }, {
+    vim.api.nvim_create_autocmd({ 'CursorMoved' }, {
       group = group_id,
       callback = matchadd,
     })
