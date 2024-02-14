@@ -14,7 +14,6 @@ local function RunWin(opt)
     pos = 'tr',
   })
   vim.cmd(opt)
-  vim.api.nvim_command('file Code Running')
 end
 
 local function Run()
