@@ -7,7 +7,7 @@ local function RunWin(opt)
   Win:Create({
     anchor = 'NE',
     width = 0.25,
-    height = 0.86,
+    height = 0.9,
     title = '  Code Running '
   }, {
     buflisted = true,
