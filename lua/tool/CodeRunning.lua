@@ -21,14 +21,11 @@ local function Run()
   local filetype = vim.bo.filetype
   local filename = vim.fn.expand('%')
   local runfile = vim.fn.expand('%<')
-  local runfile_dir = vim.fn.expand('%:p:h')
-  if vim.fn.getcwd() == runfile_dir then
-    runfile = runfile_dir .. '/' .. runfile
-  end
+  vim.cmd('silent! lcd %:p:h')
   if filetype == 'c' then
-    RunWin(string.format('term gcc "%s" -o "%s" && "%s" && rm -f "%s"', filename, runfile, runfile, runfile))
+    RunWin(string.format('term gcc "%s" -o "%s" && ./"%s" && rm -f "%s"', filename, runfile, runfile, runfile))
   elseif filetype == 'cpp' then
-    RunWin(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && "%s" && rm -rf "%s"',
+    RunWin(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && ./"%s" && rm -rf "%s"',
       filename, runfile, runfile, runfile))
   elseif filetype == 'python' then
     RunWin('term python3 ' .. filename)
