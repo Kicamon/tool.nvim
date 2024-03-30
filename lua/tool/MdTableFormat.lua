@@ -50,8 +50,8 @@ local function update_cell_contents(table_contents, width)
       end
     else
       for j, cell in ipairs(cells) do
-        local charnge_lenth = width[j] - vim.fn.strdisplaywidth(cell)
-        table_contents[i][j] = add_space(cell, charnge_lenth)
+        local charnge_length = width[j] - vim.fn.strdisplaywidth(cell)
+        table_contents[i][j] = add_space(cell, charnge_length)
       end
     end
   end
