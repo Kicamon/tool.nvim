@@ -13,7 +13,7 @@ local function fine_markdown_table(range)
     if not check_markdonw_table(l) then
       return l - range
     end
-    if range == 1 and l == vim.fn.line('$') then
+    if (range == -1 and l == 1) or (range == 1 and l == vim.fn.line('$')) then
       return l
     end
   end
