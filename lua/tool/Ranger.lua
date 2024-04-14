@@ -4,8 +4,14 @@ local bufnr = -1
 local tempname = ''
 local workpath = ''
 
-local function OpenFile(open)
-  if open == 'vsplit' then
+local function OpenFile(open, opt)
+  if opt == 'left' then
+    vim.cmd('set nosplitright')
+  elseif opt == 'down' then
+    vim.cmd('set splitbelow')
+  elseif opt == 'up' then
+    vim.cmd('set nosplitbelow')
+  elseif opt == 'right' then
     vim.cmd('set splitright')
   end
 
@@ -40,11 +46,7 @@ end
 local function Ranger(open, opt)
   prev_win = vim.api.nvim_get_current_win()
   workpath = vim.fn.getcwd()
-  if opt then
-    vim.cmd('silent! lcd ' .. vim.lsp.buf.list_workspace_folders()[1])
-  else
-    vim.cmd('silent! lcd %:p:h')
-  end
+  vim.cmd('silent! lcd %:p:h')
   local Win = require('tool.util.FloatWin')
   Win:Create({
     width = 0.8,
@@ -59,7 +61,7 @@ local function Ranger(open, opt)
     on_exit = function()
       if vim.api.nvim_win_is_valid(winnr) then
         CloseFloatWin()
-        OpenFile(open)
+        OpenFile(open, opt)
       end
       EndOpt()
     end
@@ -68,9 +70,11 @@ end
 
 vim.api.nvim_create_autocmd({ 'UIEnter' }, {
   callback = function()
-    vim.keymap.set('n', '<leader>ra', function() Ranger('edit', false) end, {})
-    vim.keymap.set('n', '<leader>rl', function() Ranger('vsplit', false) end, {})
-    vim.keymap.set('n', '<leader>rw', function() Ranger('edit', true) end, {})
-    vim.api.nvim_create_user_command('Ranger', function() Ranger('edit', false) end, { nargs = 0 })
+    vim.keymap.set('n', '<leader>ra', function() Ranger('edit') end, {})
+    vim.keymap.set('n', '<leader>rh', function() Ranger('vsplit', 'left') end, {})
+    vim.keymap.set('n', '<leader>rj', function() Ranger('split', 'down') end, {})
+    vim.keymap.set('n', '<leader>rk', function() Ranger('split', 'up') end, {})
+    vim.keymap.set('n', '<leader>rl', function() Ranger('vsplit', 'right') end, {})
+    vim.api.nvim_create_user_command('Ranger', function() Ranger('edit') end, { nargs = 0 })
   end
 })
