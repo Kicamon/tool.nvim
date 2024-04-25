@@ -2,37 +2,37 @@ local feedkeys = function(keys, mode)
   vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, true, true), mode, true)
 end
 
-local function RunWin(opt)
+local function RunWin(opt, full)
   local Win = require("tool.util.FloatWin")
   Win:Create({
-    anchor = 'NE',
-    width = 0.25,
-    height = 0.9,
+    anchor = full and 'NW' or 'NE',
+    width = full and 0.7 or 0.25,
+    height = full and 0.7 or 0.9,
     title = '  Code Running '
   }, {
     buflisted = true,
-    pos = 'tr',
+    pos = full and 'cc' or 'tr',
   })
   vim.cmd(opt)
 end
 
-local function Run()
+local function Run(full)
   vim.cmd('w')
   local filetype = vim.bo.filetype
   local filename = vim.fn.expand('%')
   local runfile = vim.fn.expand('%<')
   vim.cmd('silent! lcd %:p:h')
   if filetype == 'c' then
-    RunWin(string.format('term gcc "%s" -o "%s" && ./"%s" && rm -f "%s"', filename, runfile, runfile, runfile))
+    RunWin(string.format('term gcc "%s" -o "%s" && ./"%s" && rm -f "%s"', filename, runfile, runfile, runfile), full)
   elseif filetype == 'cpp' then
     RunWin(string.format('term g++ "%s" -std=c++17 -O2 -g -Wall -o "%s" && ./"%s" && rm -rf "%s"',
-      filename, runfile, runfile, runfile))
+      filename, runfile, runfile, runfile), full)
   elseif filetype == 'python' then
-    RunWin('term python3 ' .. filename)
+    RunWin('term python3 ' .. filename, full)
   elseif filetype == 'lua' then
-    RunWin('term luajit ' .. filename)
+    RunWin('term luajit ' .. filename, full)
   elseif filetype == 'sh' then
-    RunWin('term bash ' .. filename)
+    RunWin('term bash ' .. filename, full)
   elseif filetype == 'markdown' then
     vim.cmd('MarkdownPreview')
   elseif filetype == 'html' then
@@ -48,6 +48,11 @@ end
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   pattern = { 'c', 'cpp', 'python', 'lua', 'markdown', 'sh', 'html' },
   callback = function()
-    vim.keymap.set('n', '<F5>', Run, {})
+    vim.keymap.set('n', '<F5>', function()
+      Run(false)
+    end, {})
+    vim.api.nvim_create_user_command('Running', function()
+      Run(true)
+    end, { nargs = 0 })
   end
 })
