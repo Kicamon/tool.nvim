@@ -1,6 +1,7 @@
 local tools = {
   'CodeRunning',
   'CursorWord',
+  'CursorMove',
   'GetNode',
   'ImSwitch',
   'QuickSubstitute',
