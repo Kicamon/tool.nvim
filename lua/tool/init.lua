@@ -11,7 +11,8 @@ local tools = {
   'Wiki',
   'Wildfire',
   'Chdir',
-  'MdTableFormat'
+  'MdTableFormat',
+  'Align'
 }
 
 for _, v in ipairs(tools) do

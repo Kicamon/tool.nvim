@@ -7,27 +7,36 @@ local function input_chars()
 end
 
 local function change_lines(sl, el, chars)
+  local lines = vim.api.nvim_buf_get_lines(0, sl - 1, el, true)
+  local start_pos, max_pos = 1, 0
   while true do
-    local lines = vim.api.nvim_buf_get_lines(0, sl - 1, el, true)
-    local start_pos, max_pos = 0, 0
     local position = {}
+    local res = 0
     for i = 1, #lines, 1 do
       local pos = string.find(lines[i], chars, start_pos)
-      table.insert(position, pos)
       if pos ~= nil then
+        table.insert(position, pos)
+        res = res + 1
         max_pos = math.max(max_pos, pos)
+      else
+        table.insert(position, -1)
       end
     end
     start_pos = max_pos + 1
-    if #position <= 1 then
-      return
+    if res <= 1 then
+      break
     end
     for i = 1, #lines, 1 do
-      if position[i] ~= nil then
-         
+      if position[i]  ~= -1 then
+        local str_start  = string.sub(lines[i], 1, position[i] - 1)
+        local str_end = string.sub(lines[i], position[i])
+        str_end = string.rep(' ', (max_pos - position[i])) .. str_end
+        lines[i] = str_start .. str_end
       end
     end
+    vim.api.nvim_buf_set_lines(0, sl - 1, el, true, lines)
   end
+  vim.cmd('normal! V')
 end
 
 local function align()
@@ -37,4 +46,11 @@ local function align()
   end
   local getsurround = require('tool.util.GetSurround')
   local sl, _, el, _ = getsurround.Visual()
+  change_lines(sl, el, chars)
 end
+
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  callback = function()
+    vim.keymap.set('v', 'ga', align, { silent = true })
+  end
+})
