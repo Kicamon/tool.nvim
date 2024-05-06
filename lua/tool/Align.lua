@@ -1,8 +1,16 @@
+local specal_chars = { '^', '[', '(', '%', '.' }
+
+local function check_in_table(val, tab)
+  for _, v in ipairs(tab) do
+    if v == val then
+      return true
+    end
+  end
+  return false
+end
+
 local function input_chars()
   local chars = vim.fn.input("Align chars: ")
-  if chars == '\x1b' then
-    return false
-  end
   return chars
 end
 
@@ -27,8 +35,8 @@ local function change_lines(sl, el, chars)
       break
     end
     for i = 1, #lines, 1 do
-      if position[i]  ~= -1 then
-        local str_start  = string.sub(lines[i], 1, position[i] - 1)
+      if position[i] ~= -1 then
+        local str_start = string.sub(lines[i], 1, position[i] - 1)
         local str_end = string.sub(lines[i], position[i])
         str_end = string.rep(' ', (max_pos - position[i])) .. str_end
         lines[i] = str_start .. str_end
@@ -41,8 +49,17 @@ end
 
 local function align()
   local chars = input_chars()
-  if not chars then
+  if chars == '' then
+    vim.cmd('normal! V')
     return
+  end
+  local i, chars_len = 1, #chars
+  while i <= chars_len do
+    if check_in_table(string.sub(chars, i, i), specal_chars) then
+      chars = string.sub(chars, 0, i - 1) .. '%' .. string.sub(chars, i)
+      i, chars_len = i + 1, chars_len + 1
+    end
+    i = i + 1
   end
   local getsurround = require('tool.util.GetSurround')
   local sl, _, el, _ = getsurround.Visual()
