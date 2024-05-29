@@ -12,7 +12,8 @@ local tools = {
   'Wildfire',
   'Chdir',
   'MdTableFormat',
-  'Align'
+  'Align',
+  'MdPreview',
 }
 
 for _, v in ipairs(tools) do
