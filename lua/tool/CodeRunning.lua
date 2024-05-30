@@ -34,7 +34,7 @@ local function Run(full)
   elseif filetype == 'sh' then
     RunWin('term bash ' .. filename, full)
   elseif filetype == 'markdown' then
-    vim.cmd('MarkdownPreview')
+    require('tool.MdPreview').MarkdownPreview()
   elseif filetype == 'html' then
     vim.cmd([[
       tabe
@@ -45,14 +45,18 @@ local function Run(full)
   end
 end
 
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'c', 'cpp', 'python', 'lua', 'markdown', 'sh', 'html' },
-  callback = function()
-    vim.keymap.set('n', '<F5>', function()
-      Run(false)
-    end, {})
-    vim.api.nvim_create_user_command('Running', function()
-      Run(true)
-    end, { nargs = 0 })
-  end
-})
+return {
+  running = Run
+}
+
+-- vim.api.nvim_create_autocmd({ 'FileType' }, {
+--   pattern = { 'c', 'cpp', 'python', 'lua', 'markdown', 'sh', 'html' },
+--   callback = function()
+--     vim.keymap.set('n', '<F5>', function()
+--       Run(false)
+--     end, {})
+--     vim.api.nvim_create_user_command('Running', function()
+--       Run(true)
+--     end, { nargs = 0 })
+--   end
+-- })

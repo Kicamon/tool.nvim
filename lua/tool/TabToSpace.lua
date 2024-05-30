@@ -1,11 +1,13 @@
 local TTS = coroutine.create(function(space)
-  local lnr = vim.fn.line('$')
-  for i = 1, lnr, 1 do
-    local line = vim.fn.getline(i)
-    line = string.gsub(line, '\t', space)
-    vim.fn.setline(i, line)
+  while true do
+    local lnr = vim.fn.line('$')
+    for i = 1, lnr, 1 do
+      local line = vim.fn.getline(i)
+      line = string.gsub(line, '\t', space)
+      vim.fn.setline(i, line)
+    end
+    coroutine.yield()
   end
-  coroutine.yield()
 end)
 
 local function TabToSpace()
@@ -19,8 +21,6 @@ local function TabToSpace()
   end)
 end
 
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  callback = function()
-    vim.keymap.set('n', '<leader>ts', TabToSpace, {})
-  end
-})
+return {
+  TabToSpace = TabToSpace
+}

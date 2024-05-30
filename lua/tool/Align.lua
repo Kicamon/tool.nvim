@@ -66,8 +66,6 @@ local function align()
   change_lines(sl, el, chars)
 end
 
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  callback = function()
-    vim.keymap.set('v', 'ga', align, { silent = true })
-  end
-})
+return {
+  align = align
+}

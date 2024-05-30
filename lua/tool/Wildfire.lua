@@ -30,8 +30,7 @@ local function Wildfire()
   vim.api.nvim_win_set_cursor(0, { pos[3], pos[4] - 2 })
 end
 
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  callback = function()
-    vim.keymap.set({ 'n', 'v' }, '<cr>', Wildfire, {})
-  end
-})
+return {
+  Wildfire = Wildfire
+}
+

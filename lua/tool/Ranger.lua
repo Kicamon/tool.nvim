@@ -68,13 +68,7 @@ local function Ranger(open, opt)
   })
 end
 
-vim.api.nvim_create_autocmd({ 'UIEnter' }, {
-  callback = function()
-    vim.keymap.set('n', '<leader>ra', function() Ranger('edit') end, {})
-    vim.keymap.set('n', '<leader>rh', function() Ranger('vsplit', 'left') end, {})
-    vim.keymap.set('n', '<leader>rj', function() Ranger('split', 'down') end, {})
-    vim.keymap.set('n', '<leader>rk', function() Ranger('split', 'up') end, {})
-    vim.keymap.set('n', '<leader>rl', function() Ranger('vsplit', 'right') end, {})
-    vim.api.nvim_create_user_command('Ranger', function() Ranger('edit') end, { nargs = 0 })
-  end
-})
+
+return {
+  Ranger = Ranger
+}
