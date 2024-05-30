@@ -32,7 +32,7 @@ local function TabName(name)
   vim.api.nvim_create_autocmd('TermEnter', {
     buffer = bufnr,
     callback = function()
-      vim.api.nvim_command('file ' .. name)
+      vim.cmd('set filetype=' .. name)
     end
   })
 end

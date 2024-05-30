@@ -112,7 +112,7 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
 
 api.nvim_create_autocmd({ 'VimEnter' }, {
   callback = function()
-    --- Ranger
+    --- Yazi
     local Ranger = require('tool.Ranger').Ranger
     vim.keymap.set('n', '<leader>ra', function() Ranger('edit') end, {})
     vim.keymap.set('n', '<leader>rh', function() Ranger('vsplit', 'left') end, {})
