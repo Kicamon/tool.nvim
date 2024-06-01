@@ -13,6 +13,7 @@ local function RunWin(opt, full)
     buflisted = true,
     pos = full and 'cc' or 'tr',
   })
+  vim.cmd('set filetype=toggleterm')
   vim.cmd(opt)
 end
 
