@@ -49,15 +49,3 @@ end
 return {
   running = Run
 }
-
--- vim.api.nvim_create_autocmd({ 'FileType' }, {
---   pattern = { 'c', 'cpp', 'python', 'lua', 'markdown', 'sh', 'html' },
---   callback = function()
---     vim.keymap.set('n', '<F5>', function()
---       Run(false)
---     end, {})
---     vim.api.nvim_create_user_command('Running', function()
---       Run(true)
---     end, { nargs = 0 })
---   end
--- })

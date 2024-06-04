@@ -24,9 +24,9 @@ api.nvim_create_autocmd({ 'FileType' }, {
     vim.keymap.set('n', '<F5>', function()
       require('tool.CodeRunning').running(false)
     end)
-    vim.api.nvim_create_user_command('Running', function()
+    vim.keymap.set('n', '<F10>', function()
       require('tool.CodeRunning').running(true)
-    end, { nargs = 0 })
+    end)
   end
 })
 
