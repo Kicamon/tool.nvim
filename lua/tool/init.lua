@@ -1,12 +1,6 @@
 local api = vim.api
-local tools = {
-  'CursorWord',
-  'CursorMove',
-}
 
-for _, v in ipairs(tools) do
-  require('tool.' .. v)
-end
+require('tool.CursorWord')
 
 local function ele_in_table(ele, tab)
   for _, v in ipairs(tab) do
@@ -125,7 +119,7 @@ api.nvim_create_autocmd({ 'VimEnter' }, {
       require('tool.Wiki').OpenWiki()
     end, {})
     --- Align
-    vim.keymap.set('v', 'ga', function ()
+    vim.keymap.set('v', 'ga', function()
       require('tool.Align').align()
     end, { silent = true })
   end
