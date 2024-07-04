@@ -43,7 +43,7 @@ local function CloseFloatWin()
   vim.api.nvim_set_current_win(prev_win)
 end
 
-local function Ranger(open, opt)
+local function Yazi(open, opt)
   prev_win = vim.api.nvim_get_current_win()
   workpath = vim.fn.getcwd()
   vim.cmd('silent! lcd %:p:h')
@@ -57,7 +57,7 @@ local function Ranger(open, opt)
   winnr, bufnr = WinInfo.winnr, WinInfo.bufnr
   TabName('Ranger')
   tempname = vim.fn.tempname()
-  vim.fn.termopen(string.format('ranger --choosefiles="%s"', tempname), {
+  vim.fn.termopen(string.format('yazi --chooser-file="%s"', tempname), {
     on_exit = function()
       if vim.api.nvim_win_is_valid(winnr) then
         CloseFloatWin()
@@ -70,5 +70,5 @@ end
 
 
 return {
-  Ranger = Ranger
+  Yazi = Yazi
 }

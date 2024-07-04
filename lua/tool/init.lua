@@ -107,13 +107,13 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
 api.nvim_create_autocmd({ 'VimEnter' }, {
   callback = function()
     --- Yazi
-    local Ranger = require('tool.Ranger').Ranger
-    vim.keymap.set('n', '<leader>ra', function() Ranger('edit') end, {})
-    vim.keymap.set('n', '<leader>rh', function() Ranger('vsplit', 'left') end, {})
-    vim.keymap.set('n', '<leader>rj', function() Ranger('split', 'down') end, {})
-    vim.keymap.set('n', '<leader>rk', function() Ranger('split', 'up') end, {})
-    vim.keymap.set('n', '<leader>rl', function() Ranger('vsplit', 'right') end, {})
-    vim.api.nvim_create_user_command('Ranger', function() Ranger('edit') end, { nargs = 0 })
+    local Yazi = require('tool.Yazi').Yazi
+    vim.keymap.set('n', '<leader>ra', function() Yazi('edit') end, {})
+    vim.keymap.set('n', '<leader>rh', function() Yazi('vsplit', 'left') end, {})
+    vim.keymap.set('n', '<leader>rj', function() Yazi('split', 'down') end, {})
+    vim.keymap.set('n', '<leader>rk', function() Yazi('split', 'up') end, {})
+    vim.keymap.set('n', '<leader>rl', function() Yazi('vsplit', 'right') end, {})
+    vim.api.nvim_create_user_command('Yazi', function() Yazi('edit') end, { nargs = 0 })
     --- Wiki
     vim.keymap.set('n', '<leader>ww', function()
       require('tool.Wiki').OpenWiki()
