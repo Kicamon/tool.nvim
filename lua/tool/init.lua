@@ -24,12 +24,23 @@ api.nvim_create_autocmd({ 'FileType' }, {
   end
 })
 
+--- Image Paste
+api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' },{
+  pattern = "*.md",
+  callback = function()
+    vim.keymap.set('n', '<leader>P', function()
+      require('tool.Image').image_paste()
+    end)
+  end
+})
+
 api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   callback = function()
     --- Chdir
     vim.api.nvim_create_user_command('Chdir', function()
       require('tool.Chdir').Chdir()
     end, { nargs = 0 })
+
     --- ImSwitch
     api.nvim_create_autocmd('InsertLeave', {
       callback = function()
@@ -73,14 +84,17 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
         vim.fn.setpos('.', current_pos)
       end
     })
+
     --- GetNode
     vim.keymap.set('n', '<leader>N', function()
       require('tool.GetNode').GetNode()
     end, {})
+
     ---  QuickSubstitute
     vim.keymap.set({ 'n', 'v' }, '<leader>ss', function()
       require('tool.QuickSubstitute').QuickSubstitute()
     end, {})
+
     --- MdTableFormat
     api.nvim_create_autocmd('InsertLeave', {
       pattern = "*.md",
@@ -101,6 +115,24 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
         end
       end
     })
+
+    --- Surround
+    vim.keymap.set('v', 'S', function()
+      require('tool.Surround').Add_Surround()
+    end, {})
+    vim.keymap.set('n', 'cs', function()
+      require('tool.Surround').Change_Surround()
+    end, {})
+
+    --- TabToSpace
+    vim.keymap.set('n', '<leader>ts', function()
+      require('tool.TabToSpace').TabToSpace()
+    end, {})
+
+    --- Wildfire
+    vim.keymap.set({ 'n', 'v' }, '<cr>', function()
+      require('tool.Wildfire').Wildfire()
+    end, {})
   end
 })
 
@@ -122,36 +154,5 @@ api.nvim_create_autocmd({ 'VimEnter' }, {
     vim.keymap.set('v', 'ga', function()
       require('tool.Align').align()
     end, { silent = true })
-  end
-})
-
---- Surround
-api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  callback = function()
-    vim.keymap.set('v', 'S', function()
-      require('tool.Surround').Add_Surround()
-    end, {})
-    vim.keymap.set('n', 'cs', function()
-      require('tool.Surround').Change_Surround()
-    end
-    , {})
-  end
-})
-
---- TabToSpace
-api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  callback = function()
-    vim.keymap.set('n', '<leader>ts', function()
-      require('tool.TabToSpace').TabToSpace()
-    end, {})
-  end
-})
-
---- Wildfire
-vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
-  callback = function()
-    vim.keymap.set({ 'n', 'v' }, '<cr>', function()
-      require('tool.Wildfire').Wildfire()
-    end, {})
   end
 })
