@@ -46,6 +46,7 @@ end
 local function Yazi(open, opt)
   prev_win = vim.api.nvim_get_current_win()
   workpath = vim.fn.getcwd()
+  local filename = vim.api.nvim_buf_get_name(0)
   vim.cmd('silent! lcd %:p:h')
   local Win = require('tool.util.FloatWin')
   Win:Create({
@@ -57,7 +58,7 @@ local function Yazi(open, opt)
   winnr, bufnr = WinInfo.winnr, WinInfo.bufnr
   TabName('Ranger')
   tempname = vim.fn.tempname()
-  vim.fn.termopen(string.format('yazi --chooser-file="%s"', tempname), {
+  vim.fn.termopen(string.format('yazi %s --chooser-file="%s"', filename, tempname), {
     on_exit = function()
       if vim.api.nvim_win_is_valid(winnr) then
         CloseFloatWin()
