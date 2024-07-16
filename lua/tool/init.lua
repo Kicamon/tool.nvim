@@ -29,7 +29,7 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = "*.md",
   callback = function()
     vim.keymap.set('n', '<leader>P', function()
-      require('tool.Image').image_paste()
+      require('tool.Image').paste()
     end)
   end
 })
