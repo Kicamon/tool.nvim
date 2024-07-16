@@ -73,9 +73,34 @@ local function filetype_checke()
   end
 end
 
+local function Zh_Insert()
+  local current_pos = vim.fn.getcurpos()
+  current_pos[3] = current_pos[3] - 1
+  vim.fn.setpos('.', current_pos)
+  local ts_utils = require('nvim-treesitter.ts_utils')
+  local previous_node = ts_utils.get_node_at_cursor()
+  if previous_node and (previous_node:type() == 'comment' or previous_node:type() == 'comment_content') then
+    Zh()
+  end
+end
+
+local function Zh_Text()
+  local current_pos = vim.fn.getcurpos()
+  current_pos[3] = current_pos[3] - 1
+  vim.fn.setpos('.', current_pos)
+  local ts_utils = require('nvim-treesitter.ts_utils')
+  local previous_node = ts_utils.get_node_at_cursor()
+  if previous_node and (previous_node:type() == 'comment' or previous_node:type() == 'comment_content') then
+    require('tool.ImSwitch').Zh()
+  end
+  current_pos[3] = current_pos[3] + 1
+  vim.fn.setpos('.', current_pos)
+end
+
 return {
   En = En,
   Zh = Zh,
+  Zh_Insert = Zh_Insert,
+  Zh_Text = Zh_Text,
   filetype_checke = filetype_checke,
 }
-

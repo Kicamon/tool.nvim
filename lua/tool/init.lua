@@ -17,15 +17,15 @@ api.nvim_create_autocmd({ 'FileType' }, {
   callback = function()
     vim.keymap.set('n', '<F5>', function()
       require('tool.CodeRunning').running(false)
-    end)
+    end, { silent = true })
     vim.keymap.set('n', '<F10>', function()
       require('tool.CodeRunning').running(true)
-    end)
+    end, { silent = true })
   end
 })
 
 --- Image Paste
-api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' },{
+api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
   pattern = "*.md",
   callback = function()
     vim.keymap.set('n', '<leader>P', function()
@@ -55,15 +55,7 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
             require('tool.ImSwitch').Zh()
           end
         else
-          local current_pos = vim.fn.getcurpos()
-          current_pos[3] = current_pos[3] - 1
-          vim.fn.setpos('.', current_pos)
-          local ts_utils = require('nvim-treesitter.ts_utils')
-          local previous_node = ts_utils.get_node_at_cursor()
-
-          if previous_node and (previous_node:type() == 'comment' or previous_node:type() == 'comment_content') then
-            require('tool.ImSwitch').Zh()
-          end
+          require('tool.ImSwitch').Zh_Insert()
         end
       end
     })
@@ -72,16 +64,7 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
         if (vim.bo.filetype == 'python' or vim.bo.filetype == 'sh') and vim.fn.line('.') == 1 then
           return
         end
-        local current_pos = vim.fn.getcurpos()
-        current_pos[3] = current_pos[3] - 1
-        vim.fn.setpos('.', current_pos)
-        local ts_utils = require('nvim-treesitter.ts_utils')
-        local previous_node = ts_utils.get_node_at_cursor()
-        if previous_node and (previous_node:type() == 'comment' or previous_node:type() == 'comment_content') then
-          require('tool.ImSwitch').Zh()
-        end
-        current_pos[3] = current_pos[3] + 1
-        vim.fn.setpos('.', current_pos)
+        require('tool.ImSwitch').Zh_Text()
       end
     })
 
@@ -105,34 +88,32 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     api.nvim_create_autocmd('TextChangedI', {
       pattern = "*.md",
       callback = function()
-        local current_line = vim.api.nvim_get_current_line()
-        local cursor_pos = vim.api.nvim_win_get_cursor(0)
-        local char = current_line:sub(cursor_pos[2], cursor_pos[2])
-        if char == '|' then
-          require('tool.MdTableFormat').markdown_table_format()
-          local length = #vim.api.nvim_get_current_line()
-          vim.api.nvim_win_set_cursor(0, { cursor_pos[1], length })
-        end
+        require('tool.MdTableFormat').markdown_table_format_lines()
       end
     })
 
     --- Surround
     vim.keymap.set('v', 'S', function()
       require('tool.Surround').Add_Surround()
-    end, {})
+    end, { silent = true })
     vim.keymap.set('n', 'cs', function()
       require('tool.Surround').Change_Surround()
-    end, {})
+    end, { silent = true })
 
     --- TabToSpace
     vim.keymap.set('n', '<leader>ts', function()
       require('tool.TabToSpace').TabToSpace()
-    end, {})
+    end, { silent = true })
 
     --- Wildfire
     vim.keymap.set({ 'n', 'v' }, '<cr>', function()
       require('tool.Wildfire').Wildfire()
-    end, {})
+    end, { silent = true })
+
+    --- Align
+    vim.keymap.set('v', 'ga', function()
+      require('tool.Align').align()
+    end, { silent = true })
   end
 })
 
@@ -146,13 +127,10 @@ api.nvim_create_autocmd({ 'VimEnter' }, {
     vim.keymap.set('n', '<leader>rk', function() Yazi('split', 'up') end, {})
     vim.keymap.set('n', '<leader>rl', function() Yazi('vsplit', 'right') end, {})
     vim.api.nvim_create_user_command('Yazi', function() Yazi('edit') end, { nargs = 0 })
+
     --- Wiki
     vim.keymap.set('n', '<leader>ww', function()
       require('tool.Wiki').OpenWiki()
     end, {})
-    --- Align
-    vim.keymap.set('v', 'ga', function()
-      require('tool.Align').align()
-    end, { silent = true })
   end
 })
