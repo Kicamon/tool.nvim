@@ -71,12 +71,12 @@ api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
     --- GetNode
     vim.keymap.set('n', '<leader>N', function()
       require('tool.GetNode').GetNode()
-    end, {})
+    end, { silent = true })
 
     ---  QuickSubstitute
     vim.keymap.set({ 'n', 'v' }, '<leader>ss', function()
       require('tool.QuickSubstitute').QuickSubstitute()
-    end, {})
+    end, { silent = true })
 
     --- MdTableFormat
     api.nvim_create_autocmd('InsertLeave', {
@@ -121,16 +121,16 @@ api.nvim_create_autocmd({ 'VimEnter' }, {
   callback = function()
     --- Yazi
     local Yazi = require('tool.Yazi').Yazi
-    vim.keymap.set('n', '<leader>ra', function() Yazi('edit') end, {})
-    vim.keymap.set('n', '<leader>rh', function() Yazi('vsplit', 'left') end, {})
-    vim.keymap.set('n', '<leader>rj', function() Yazi('split', 'down') end, {})
-    vim.keymap.set('n', '<leader>rk', function() Yazi('split', 'up') end, {})
-    vim.keymap.set('n', '<leader>rl', function() Yazi('vsplit', 'right') end, {})
+    vim.keymap.set('n', '<leader>ra', function() Yazi('edit') end, { silent = true })
+    vim.keymap.set('n', '<leader>rh', function() Yazi('vsplit', 'left') end, { silent = true })
+    vim.keymap.set('n', '<leader>rj', function() Yazi('split', 'down') end, { silent = true })
+    vim.keymap.set('n', '<leader>rk', function() Yazi('split', 'up') end, { silent = true })
+    vim.keymap.set('n', '<leader>rl', function() Yazi('vsplit', 'right') end, { silent = true })
     vim.api.nvim_create_user_command('Yazi', function() Yazi('edit') end, { nargs = 0 })
 
     --- Wiki
     vim.keymap.set('n', '<leader>ww', function()
       require('tool.Wiki').OpenWiki()
-    end, {})
+    end, { silent = true })
   end
 })

@@ -52,7 +52,7 @@ local function Yazi(open, opt)
   Win:Create({
     width = 0.8,
     height = 0.8,
-    title = ' Ranger ',
+    title = ' Yazi ',
   })
   WinInfo = Win:GetInfo()
   winnr, bufnr = WinInfo.winnr, WinInfo.bufnr
